@@ -27,8 +27,8 @@ contract SgbMinter is Ownable, ReentrancyGuard {
   bool public paused = false;
 
   uint256 public referralFee = 1_000; // share of each domain purchase (in bips) that goes to the referrer
-  uint256 public stakingFee = 5_000; // share of each domain purchase (in bips) that goes to staking
-  uint256 public brokerFee = 5_000; // share of each domain purchase (in bips) that goes to the broker
+  uint256 public stakingFee = 10_000; // share of each domain purchase (in bips) that goes to staking
+  uint256 public brokerFee = 0; // share of each domain purchase (in bips) that goes to the broker
   uint256 public constant MAX_BPS = 10_000;
 
   uint256 public price1char; // 1 char domain price
@@ -121,6 +121,16 @@ contract SgbMinter is Ownable, ReentrancyGuard {
 
   // OWNER
 
+  /// @notice This changes the Broker address in the minter contract
+  function changeBrokerAddress(address _brokerAddress) external onlyOwner {
+    brokerAddress = _brokerAddress;
+  }
+
+  /// @notice This changes the Broker fee in the minter contract
+  function changeBrokerFee(uint256 _brokerFee) external onlyOwner {
+    brokerFee = _brokerFee;
+  }
+
   /// @notice This changes price in the minter contract
   function changePrice(uint256 _price, uint256 _chars) external onlyOwner {
     require(_price > 0, "Cannot be zero");
@@ -140,13 +150,11 @@ contract SgbMinter is Ownable, ReentrancyGuard {
 
   /// @notice This changes referral fee in the minter contract
   function changeReferralFee(uint256 _referralFee) external onlyOwner {
-    require(_referralFee <= 2000, "Cannot exceed 20%");
     referralFee = _referralFee;
   }
 
   /// @notice This changes staking fee in the minter contract
   function changeStakingFee(uint256 _stakingFee) external onlyOwner {
-    require(_stakingFee <= 6000, "Cannot exceed 60%");
     stakingFee = _stakingFee;
   }
 
@@ -176,21 +184,6 @@ contract SgbMinter is Ownable, ReentrancyGuard {
   function withdraw() external onlyOwner {
     (bool success, ) = owner().call{value: address(this).balance}("");
     require(success, "Failed to withdraw ETH from contract");
-  }
-
-  // OTHER WRITE METHODS
-
-  /// @notice This changes the Broker address in the minter contract
-  function changeBrokerAddress(address _brokerAddress) external {
-    require(_msgSender() == brokerAddress, "Sender is not the broker");
-    brokerAddress = _brokerAddress;
-  }
-
-  /// @notice This changes the Broker fee in the minter contract
-  function changeBrokerFee(uint256 _brokerFee) external {
-    require(_brokerFee <= 3000, "Cannot exceed 30%");
-    require(_msgSender() == brokerAddress, "Sender is not the broker");
-    brokerFee = _brokerFee;
   }
 
   // RECEIVE & FALLBACK
