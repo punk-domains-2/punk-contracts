@@ -1,12 +1,11 @@
 // Deploy factory contract only (ForbiddenTlds and FlexiPunkMetadata need to be already deployed)
 // after deployment, factory address will be automatically added to the ForbiddenTlds whitelist and to the Resolver
 // if not, do it manually
-// npx hardhat run scripts/factories/flexi/deployFactoryOnly.js --network optimisticGoerli
+// npx hardhat run scripts/factories/standard/deployFactoryOnly.js --network optimisticGoerli
 
 async function main() {
-  const contractNameFactory = "FlexiPunkTLDFactory";
+  const contractNameFactory = "PunkTLDFactory"; // standard factory
   const forbAddress = "<enter-forbidden-tlds-contract-address>";
-  const metaAddress = "<enter-metadata-address>";
   const resolverAddress = "<enter-resolver-address>"; // IMPORTANT: this script is made for non-upgradable Resolver. If you're using upgradable Resolver, you need to modify this script below (find: PunkResolverNonUpgradable line)
 
   let tldPrice = "0.01"; // price on testnets
@@ -35,7 +34,7 @@ async function main() {
   const contractFactory = await ethers.getContractFactory(contractNameFactory);
 
   const tldPriceWei = ethers.utils.parseUnits(tldPrice, "ether");
-  const instanceFactory = await contractFactory.deploy(tldPriceWei, forbAddress, metaAddress);
+  const instanceFactory = await contractFactory.deploy(tldPriceWei, forbAddress);
   await instanceFactory.deployed();
 
   console.log("Factory contract deployed to:", instanceFactory.address);
@@ -61,7 +60,7 @@ async function main() {
   console.log("Done!");
 
   console.log("Wait a minute and then run this command to verify contracts on Etherscan:");
-  console.log("npx hardhat verify --network " + network.name + " " + instanceFactory.address + ' "' + tldPriceWei + '" ' + forbAddress + ' ' + metaAddress);
+  console.log("npx hardhat verify --network " + network.name + " " + instanceFactory.address + ' "' + tldPriceWei + '" ' + forbAddress);
 }
 
 main()

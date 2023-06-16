@@ -99,6 +99,13 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
     },
+    optimisticGoerli: {
+      url: 'https://goerli.optimism.io',
+      chainId: 420,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
     optimisticKovan: {
       url: 'https://kovan.optimism.io',
       chainId: 69,
@@ -180,6 +187,7 @@ module.exports = {
       ftmTestnet: process.env.FTMSCAN_API_KEY,
       opera: process.env.FTMSCAN_API_KEY,
       optimisticEthereum: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
+      optimisticGoerli: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
       optimisticKovan: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
       polygon: process.env.POLYGONSCAN_API_KEY,
       polygonMumbai: process.env.POLYGONSCAN_API_KEY, 
@@ -216,20 +224,11 @@ module.exports = {
         }
       },
       {
-        network: "songbird",
-        chainId: 19,
+        network: "optimisticGoerli",
+        chainId: 420,
         urls: {
-          apiURL: "https://songbird-explorer.flare.network/api",
-          browserURL: "https://songbird-explorer.flare.network/"
-        }
-      },
-      // Comment out the xdai object below to verify on Blockscout. Uncomment to verify on Gnosis Scan.
-      {
-        network: "xdai",
-        chainId: 100,
-        urls: {
-          apiURL: "https://api.gnosisscan.io/api",
-          browserURL: "https://gnosisscan.io"
+          apiURL: "https://api-goerli-optimism.etherscan.io/api",
+          browserURL: "https://goerli-optimism.etherscan.io/"
         }
       },
       {
@@ -246,6 +245,23 @@ module.exports = {
         urls: {
           apiURL: "https://api-testnet-zkevm.polygonscan.com/api",
           browserURL: "https://testnet-zkevm.polygonscan.com"
+        }
+      },
+      {
+        network: "songbird",
+        chainId: 19,
+        urls: {
+          apiURL: "https://songbird-explorer.flare.network/api",
+          browserURL: "https://songbird-explorer.flare.network/"
+        }
+      },
+      // Comment out the xdai object below to verify on Blockscout. Uncomment to verify on Gnosis Scan.
+      {
+        network: "xdai",
+        chainId: 100,
+        urls: {
+          apiURL: "https://api.gnosisscan.io/api",
+          browserURL: "https://gnosisscan.io"
         }
       }
     ]
