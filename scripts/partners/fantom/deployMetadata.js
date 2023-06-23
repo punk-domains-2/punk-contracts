@@ -1,6 +1,8 @@
 // Deploy FlexiPunkMetadata contract
 // npx hardhat run scripts/partners/fantom/deployMetadata.js --network opera
 
+const tldAddress = "0xBDACF94dDCAB51c39c2dD50BffEe60Bb8021949a";
+
 async function main() {
   const contractName = "FantomMetadata";
 
@@ -14,6 +16,13 @@ async function main() {
   const instance = await contract.deploy();
   
   console.log("Metadata contract address:", instance.address);
+
+  // create TLD contract instance
+  const tldContract = await ethers.getContractFactory("FlexiPunkTLD");
+  const tldInstance = await tldContract.attach(tldAddress);
+
+  // set metadata contract address
+  await tldInstance.changeMetadataAddress(instance.address);
 
   console.log("Wait a minute and then run this command to verify contracts on Etherscan:");
   console.log("npx hardhat verify --network " + network.name + " " + instance.address);
