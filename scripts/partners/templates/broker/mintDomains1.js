@@ -1,4 +1,5 @@
-// npx hardhat run scripts/partners/templates/broker/mintDomains.js --network songbird
+// script to generate domains from NFT IDs
+// npx hardhat run scripts/partners/templates/broker/mintDomains1.js --network songbird
 
 const tldAddress = "<tld-address>";
 const minterAddress = "<domain-minter-address>";
