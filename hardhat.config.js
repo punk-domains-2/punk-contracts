@@ -85,6 +85,13 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 45000000000, // 10 gwei
     },
+    mantleTestnet: { // Mantle testnet
+      url: 'https://rpc.testnet.mantle.xyz', 
+      chainId: 5001,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1, // 1 wei
+    },
     opera: { // Fantom mainnet
       url: 'https://rpc.ftm.tools', // "https://rpcapi.fantom.network", 
       chainId: 250,
@@ -183,8 +190,9 @@ module.exports = {
       bsc: process.env.BSC_API_KEY,
       flare: "randomstring",
       flareCoston: "randomstring",
-      mainnet: process.env.ETHERSCAN_API_KEY,
       ftmTestnet: process.env.FTMSCAN_API_KEY,
+      mainnet: process.env.ETHERSCAN_API_KEY,
+      mantleTestnet: "randomstring",
       opera: process.env.FTMSCAN_API_KEY,
       optimisticEthereum: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
       optimisticGoerli: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
@@ -221,6 +229,14 @@ module.exports = {
         urls: {
           apiURL: "https://coston-explorer.flare.network/api",
           browserURL: "https://coston-explorer.flare.network"
+        }
+      },
+      {
+        network: "mantleTestnet",
+        chainId: 5001,
+        urls: {
+          apiURL: "https://explorer.testnet.mantle.xyz/api",
+          browserURL: "https://explorer.testnet.mantle.xyz"
         }
       },
       {
