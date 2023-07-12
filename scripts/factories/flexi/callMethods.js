@@ -1,9 +1,11 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network polygonZkEvmTestnet
+// npx hardhat run scripts/factories/flexi/callMethods.js --network mantleTestnet
 
 const forbiddenAddress = "0xC6c17896fa051083324f2aD0Ed4555dC46D96E7f";
-const factoryAddress = "0xeA2f99fE93E5D07F61334C5Eb9c54c5D5C957a6a";
-const tldAddress = "";
+const factoryAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
+const tldAddress = "0x4087fb91a1fbdef05761c02714335d232a2bf3a1";
 const metadataAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
+
+const domainPrice = ethers.utils.parseUnits("1", "ether");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -22,8 +24,12 @@ async function main() {
   ]);
 
   const tldInterface = new ethers.utils.Interface([
-    "function tokenURI(uint256) external view returns(string memory)",
-    "function mint(string memory,address,address) external payable returns(uint256)"
+    "function buyingEnabled() external view returns(bool)",
+    "function changePrice(uint256 _price) external",
+    "function mint(string memory,address,address) external payable returns(uint256)",
+    "function price() external view returns(uint256)",
+    "function toggleBuyingDomains() external",
+    "function tokenURI(uint256) external view returns(string memory)"
   ]);
 
   const metadataInterface = new ethers.utils.Interface([
@@ -32,8 +38,8 @@ async function main() {
 
   //const forbiddenContract = new ethers.Contract(forbiddenAddress, forbiddenInterface, deployer);
   //const factoryContract = new ethers.Contract(factoryAddress, factoryInterface, deployer);
-  //const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
-  const metadataContract = new ethers.Contract(metadataAddress, metadataInterface, deployer);
+  const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
+  //const metadataContract = new ethers.Contract(metadataAddress, metadataInterface, deployer);
 
   //const minterBefore = await contract.minter();
   //console.log("Minter before: " + minterBefore);
@@ -51,7 +57,6 @@ async function main() {
   // MINT A NEW TLD
   //const tldName = ".fantom";
   //const tldSymbol = ".FANTOM";
-  //const domainPrice = ethers.utils.parseUnits("0", "ether");
 
   /*
   await factoryContract.ownerCreateTld(
@@ -68,6 +73,21 @@ async function main() {
   //console.log("TLD address: ");
   //console.log(tldAddr);
 
+  // toggle buying domains
+  //await tldContract.toggleBuyingDomains();
+
+  // check buyingEnabled state
+  const buyingEnabled = await tldContract.buyingEnabled();
+  console.log("buyingEnabled:", buyingEnabled);
+
+  // change price
+  //await tldContract.changePrice(domainPrice);
+
+  // check price
+  const price = await tldContract.price();
+  console.log("price:", Number(price));
+
+  // Mint a domain name
   /*
   await tldContract.mint(
     "tempe", // domain name (without TLD)
@@ -84,6 +104,7 @@ async function main() {
   //console.log(metadata);
 
   // GET METADATA FROM THE METADATA CONTRACT
+  /*
   const metadata = await metadataContract.getMetadata(
     "tempe", // domain name (without TLD)
     ".fantom", // TLD
@@ -92,6 +113,7 @@ async function main() {
 
   console.log("metadata:");
   console.log(metadata);
+  */
 
   console.log("Method calls completed");
 }
