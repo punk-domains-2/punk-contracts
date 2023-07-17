@@ -13,7 +13,7 @@ was only needed for the verification purposes.
 */
 
 const contractName1 = "FlexiPunkTLD";
-const tldOwner = "0xb29050965A5AC70ab487aa47546cdCBc97dAE45D";
+const tldOwner = "<enter-owner-address>";
 const factoryAddress = "<enter-factory-address>";
 const metadataAddress = "<enter-metadata-address>";
 

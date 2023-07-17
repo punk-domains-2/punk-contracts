@@ -5,8 +5,8 @@ const tldAddress = "<tld-address>";
 const minterAddress = "<domain-minter-address>";
 const nftAddress = "<nft-collection-address>";
 
-const startNftId = 350;
-const nftSupply = 610; 
+const startNftId = 501;
+const amountToMint = 500; 
 const namePrefix = "<nft-collection-name>";
 
 async function main() {
@@ -32,7 +32,7 @@ async function main() {
   const nftContract = new ethers.Contract(nftAddress, nftInterface, deployer);
 
   // MINT DOMAINS
-  for (let i = startNftId; i <= nftSupply; i++) {
+  for (let i = startNftId; i <= amountToMint; i++) {
     const domainName = namePrefix + i;
     let nftOwner;
 
