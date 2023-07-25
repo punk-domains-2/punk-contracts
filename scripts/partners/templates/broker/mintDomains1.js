@@ -5,7 +5,7 @@ const tldAddress = "<tld-address>";
 const minterAddress = "<domain-minter-address>";
 const nftAddress = "<nft-collection-address>";
 
-const startNftId = 501;
+const startNftId = 1001;
 const amountToMint = 500; 
 const namePrefix = "<nft-collection-name>";
 

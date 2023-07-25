@@ -1,7 +1,7 @@
 // Deploy factory contract only (ForbiddenTlds and FlexiPunkMetadata need to be already deployed)
 // after deployment, factory address will be automatically added to the ForbiddenTlds whitelist and to the Resolver
 // if not, do it manually
-// npx hardhat run scripts/factories/flexi/deployFactoryOnly.js --network optimisticGoerli
+// npx hardhat run scripts/factories/flexi/deployFactoryOnly.js --network taikoGrimsvotn
 
 async function main() {
   const contractNameFactory = "FlexiPunkTLDFactory";
