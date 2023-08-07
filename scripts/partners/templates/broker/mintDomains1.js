@@ -7,6 +7,7 @@ const nftAddress = "<nft-collection-address>";
 
 const startNftId = 501;
 const endNftId = 500; 
+
 const namePrefix = "<nft-collection-name>";
 
 async function main() {

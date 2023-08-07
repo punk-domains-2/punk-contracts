@@ -1,6 +1,5 @@
-// Deploy forbidden contract & factory contract (you'll need to deploy metadata contract beforehand)
-// after deployment, add factory address to the ForbiddenTlds whitelist and to the Resolver
-// npx hardhat run scripts/factories/flexi/deployForbiddenTlds.js --network bsc
+// Deploy forbidden contract
+// npx hardhat run scripts/factories/flexi/deployForbiddenTlds.js --network taikoGrimsvotn
 
 async function main() {
   const contractNameForb = "PunkForbiddenTlds";
