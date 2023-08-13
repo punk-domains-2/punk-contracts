@@ -50,6 +50,20 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
     },
+    base: {
+      url: 'https://mainnet.base.org',
+      chainId: 8453,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
+    baseTestnet: {
+      url: 'https://goerli.base.org',
+      chainId: 84531,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
     bsc: { // BNB Smart Chain mainnet
       url: 'https://bscrpc.com',
       chainId: 56,
@@ -201,6 +215,8 @@ module.exports = {
       arbitrumGoerli: process.env.ARBISCAN_API_KEY,
       aurora: process.env.AURORASCAN_API_KEY,
       auroraTestnet: process.env.AURORASCAN_API_KEY,
+      base: process.env.BASESCAN_API_KEY,
+      baseTestnet: process.env.BASESCAN_API_KEY,
       bsc: process.env.BSC_API_KEY,
       flare: "randomstring",
       flareCoston: "randomstring",
