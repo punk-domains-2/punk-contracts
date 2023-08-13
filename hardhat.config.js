@@ -51,14 +51,14 @@ module.exports = {
       gasPrice: 1000000000, // 1 gwei
     },
     base: {
-      url: 'https://mainnet.base.org',
+      url: 'https://mainnet.base.org', // https://base-mainnet.public.blastapi.io
       chainId: 8453,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
     },
     baseTestnet: {
-      url: 'https://goerli.base.org',
+      url: 'https://base-goerli.public.blastapi.io',
       chainId: 84531,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
@@ -245,6 +245,22 @@ module.exports = {
         urls: {
           apiURL: "https://api-goerli.arbiscan.io/api",
           browserURL: "https://goerli.arbiscan.io"
+        }
+      },
+      {
+        network: "base",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api", // "https://base.blockscout.com/api"
+          browserURL: "https://basescan.org" // "https://base.blockscout.com"
+        }
+      },
+      {
+        network: "baseTestnet",
+        chainId: 84531,
+        urls: {
+          apiURL: "https://base-goerli.blockscout.com/api", // "https://api-goerli.basescan.org/api",
+          browserURL: "https://base-goerli.blockscout.com" // "https://goerli.basescan.org" 
         }
       },
       {
