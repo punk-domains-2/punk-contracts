@@ -6,10 +6,10 @@ const tldAddress = "<tld-address>";
 const minterAddress = "<domain-minter-address>";
 const nftAddress = "<nft-collection-address>";
 
-const startNftId = 501;
+const startNftId = 1;
 const endNftId = 500; 
 
-const namePrefix = "<nft-collection-name>";
+const namePrefix = "<domain-name-prefix>";
 
 async function main() {
   const [deployer] = await ethers.getSigners();

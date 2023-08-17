@@ -1,6 +1,6 @@
 // script to generate domains from NFT IDs
 // NFT contract is on a DIFFERENT network than the TLD contract
-// npx hardhat run scripts/partners/templates/broker/mintDomains3.js --network songbird
+// npx hardhat run scripts/partners/templates/broker/mintDomains3.js --network flare
 
 const tldAddress = "<tld-address>";
 const minterAddress = "<domain-minter-address>";
@@ -11,7 +11,7 @@ const readRpcUrl = "<read-rpc-url>"; // RPC URL for the network where NFT contra
 const startNftId = 1;
 const endNftId = 500; 
 
-const namePrefix = "<nft-collection-name>";
+const namePrefix = "<domain-name-prefix>";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
