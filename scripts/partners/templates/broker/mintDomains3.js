@@ -1,12 +1,14 @@
 // script to generate domains from NFT IDs
-// NFT contract is on the SAME network as the TLD contract
-// npx hardhat run scripts/partners/templates/broker/mintDomains1.js --network songbird
+// NFT contract is on a DIFFERENT network than the TLD contract
+// npx hardhat run scripts/partners/templates/broker/mintDomains3.js --network songbird
 
 const tldAddress = "<tld-address>";
 const minterAddress = "<domain-minter-address>";
 const nftAddress = "<nft-collection-address>";
 
-const startNftId = 501;
+const readRpcUrl = "<read-rpc-url>"; // RPC URL for the network where NFT contract is deployed
+
+const startNftId = 1;
 const endNftId = 500; 
 
 const namePrefix = "<nft-collection-name>";
@@ -31,7 +33,9 @@ async function main() {
 
   const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
   const minterContract = new ethers.Contract(minterAddress, minterInterface, deployer);
-  const nftContract = new ethers.Contract(nftAddress, nftInterface, deployer);
+
+  const readProvider = new ethers.providers.JsonRpcProvider(readRpcUrl); // read network provider
+  const nftContract = new ethers.Contract(nftAddress, nftInterface, readProvider);
 
   // MINT DOMAINS
   for (let i = startNftId; i <= endNftId; i++) {
