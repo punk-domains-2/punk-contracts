@@ -1,11 +1,11 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network mantleTestnet
+// npx hardhat run scripts/factories/flexi/callMethods.js --network base
 
-const forbiddenAddress = "0xC6c17896fa051083324f2aD0Ed4555dC46D96E7f";
+const forbiddenAddress = "";
 const factoryAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
-const tldAddress = "0x4087fb91a1fbdef05761c02714335d232a2bf3a1";
-const metadataAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
+const tldAddress = "";
+const metadataAddress = "";
 
-const domainPrice = ethers.utils.parseUnits("1", "ether");
+const domainPrice = ethers.utils.parseUnits("0", "ether");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -37,8 +37,8 @@ async function main() {
   ]);
 
   //const forbiddenContract = new ethers.Contract(forbiddenAddress, forbiddenInterface, deployer);
-  //const factoryContract = new ethers.Contract(factoryAddress, factoryInterface, deployer);
-  const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
+  const factoryContract = new ethers.Contract(factoryAddress, factoryInterface, deployer);
+  //const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
   //const metadataContract = new ethers.Contract(metadataAddress, metadataInterface, deployer);
 
   //const minterBefore = await contract.minter();
@@ -55,37 +55,39 @@ async function main() {
   //await minterContract.transferOwnership(newOwnerAddress);
 
   // MINT A NEW TLD
-  //const tldName = ".fantom";
-  //const tldSymbol = ".FANTOM";
-
   /*
-  await factoryContract.ownerCreateTld(
+  const tldName = ".basebook";
+  const tldSymbol = ".BASEBOOK";
+   
+  const tx = await factoryContract.ownerCreateTld(
     tldName, // TLD name
     tldSymbol, // symbol
     deployer.address, // TLD owner
     domainPrice, // domain price
     false // buying enabled
   );
-  */
 
-  //const tldAddr = await factoryContract.tldNamesAddresses(tldName);
+  tx.wait();
   
-  //console.log("TLD address: ");
-  //console.log(tldAddr);
+  const tldAddr = await factoryContract.tldNamesAddresses(tldName);
+  
+  console.log("TLD address: ");
+  console.log(tldAddr);
+  */
 
   // toggle buying domains
   //await tldContract.toggleBuyingDomains();
 
   // check buyingEnabled state
-  const buyingEnabled = await tldContract.buyingEnabled();
-  console.log("buyingEnabled:", buyingEnabled);
+  //const buyingEnabled = await tldContract.buyingEnabled();
+  //console.log("buyingEnabled:", buyingEnabled);
 
   // change price
   //await tldContract.changePrice(domainPrice);
 
   // check price
-  const price = await tldContract.price();
-  console.log("price:", Number(price));
+  //const price = await tldContract.price();
+  //console.log("price:", Number(price));
 
   // Mint a domain name
   /*

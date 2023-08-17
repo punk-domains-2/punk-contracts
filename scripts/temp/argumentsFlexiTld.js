@@ -6,7 +6,7 @@ module.exports = [
   "<enter-owner-address>",
   "0",
   false,
-  0,
+  "0",
   "<enter-factory-address>",
   "<enter-metadata-address>"
 ];

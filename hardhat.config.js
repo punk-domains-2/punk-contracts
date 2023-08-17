@@ -247,14 +247,26 @@ module.exports = {
           browserURL: "https://goerli.arbiscan.io"
         }
       },
+      /* 
       {
-        network: "base",
+        network: "base", // BaseScan (Etherscan)
         chainId: 8453,
         urls: {
-          apiURL: "https://api.basescan.org/api", // "https://base.blockscout.com/api"
-          browserURL: "https://basescan.org" // "https://base.blockscout.com"
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org"
         }
       },
+      */
+      /* */
+      {
+        network: "base", // Blockscout
+        chainId: 8453,
+        urls: {
+          apiURL: "https://base.blockscout.com/api",
+          browserURL: "https://base.blockscout.com"
+        }
+      },
+      
       {
         network: "baseTestnet",
         chainId: 84531,

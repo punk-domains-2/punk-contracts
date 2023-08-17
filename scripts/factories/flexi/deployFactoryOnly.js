@@ -9,7 +9,7 @@ async function main() {
   const metaAddress = "<enter-metadata-address>";
   const resolverAddress = "<enter-resolver-address>"; // IMPORTANT: this script is made for non-upgradable Resolver. If you're using upgradable Resolver, you need to modify this script below (find: PunkResolverNonUpgradable line)
 
-  let tldPrice = "0.01"; // price on testnets
+  let tldPrice = "40"; // price on testnets
 
   // mainnet prices
   if (network.config.chainId === 1 || network.config.chainId === 10 || network.config.chainId === 42161) {

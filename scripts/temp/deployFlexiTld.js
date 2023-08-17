@@ -30,7 +30,7 @@ async function main() {
   const tldName = ".test";
   const tldSymbol = "TEST";
   
-  const tldPrice = ethers.utils.parseUnits("0.1", "ether");
+  const tldPrice = 0; // ethers.utils.parseUnits("0", "ether");
   const buyingEnabled = false;
   const royalty = 0;
 
