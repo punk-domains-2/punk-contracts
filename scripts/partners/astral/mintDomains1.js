@@ -4,6 +4,7 @@ const domainsAirdrop = require('./domains_airdrop.json');
 
 const tldAddress = "0xBDACF94dDCAB51c39c2dD50BffEe60Bb8021949a";
 const minterAddress = "0xcE6BFf80F9f79f9d471b365F527c36592C2c15E5";
+const start = 70; // start from this index
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -23,7 +24,7 @@ async function main() {
   const minterContract = new ethers.Contract(minterAddress, minterInterface, deployer);
 
   // MINT DOMAINS
-  for (let i = 0; i < domainsAirdrop.length; i++) {
+  for (let i = start; i < domainsAirdrop.length; i++) {
     const domainName = String(domainsAirdrop[i].domain).split(".")[0].trim().toLowerCase();
 
     const nftOwner = domainsAirdrop[i].address;
