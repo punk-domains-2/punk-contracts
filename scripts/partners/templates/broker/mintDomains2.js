@@ -8,7 +8,7 @@ const readTldAddress = "<read-tld-address>";
 const readRpcUrl = "<read-rpc-url>"; // RPC URL for the network where TLD data is read from
 
 const startId = 1; 
-const domainSupply = 200; 
+const endNftId = 200; 
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -34,7 +34,7 @@ async function main() {
   const readTldContract = new ethers.Contract(readTldAddress, tldInterface, readProvider); // read TLD contract
 
   // MINT DOMAINS
-  for (let i = startId; i <= domainSupply; i++) {
+  for (let i = startId; i <= endNftId; i++) {
     let domainName = await readTldContract.domainIdsNames(i);
     let readDomainOwner;
 
