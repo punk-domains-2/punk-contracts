@@ -55,7 +55,7 @@ module.exports = {
       chainId: 8453,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
-      gasPrice: 100000000, // 0.1 gwei
+      gasPrice: 200000000, // 0.2 gwei
     },
     baseTestnet: {
       url: 'https://base-goerli.public.blastapi.io',
