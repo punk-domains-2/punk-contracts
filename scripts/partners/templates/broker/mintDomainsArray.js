@@ -1,10 +1,19 @@
-// npx hardhat run scripts/partners/astral/mintDomains1.js --network songbird
+// script to generate domains from an array of names
+// npx hardhat run scripts/partners/templates/broker/mintDomainsArray.js --network flare
 
-const domainsAirdrop = require('./domains_airdrop.json');
+const namesArray = [
+  {
+    "address": "0xb29050965a5ac70ab487aa47546cdcbc97dae45d",
+    "name": "techie"
+  },
+  {
+    "address": "0x5ffd23b1b0350debb17a2cb668929ac5f76d0e18",
+    "name": "tekr"
+  }
+]
 
 const tldAddress = "0xBDACF94dDCAB51c39c2dD50BffEe60Bb8021949a";
-const minterAddress = "0xcE6BFf80F9f79f9d471b365F527c36592C2c15E5";
-const start = 75; // start from this index
+const minterAddress = "0x63f8691b048e68E1C3d6E135aDc81291A9bb1987";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -23,29 +32,25 @@ async function main() {
   const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
   const minterContract = new ethers.Contract(minterAddress, minterInterface, deployer);
 
-  // MINT DOMAINS
-  for (let i = start; i < domainsAirdrop.length; i++) {
-    const domainName = String(domainsAirdrop[i].domain).split(".")[0].trim().toLowerCase();
+  // loop through the namesArray
+  for (let nameObj of namesArray) {
+    const domainName = String(nameObj.name).toLowerCase().trim().replace(".flr", "");
+    const recipient = nameObj.address;
 
-    const nftOwner = domainsAirdrop[i].address;
-
-    // get domain holder for domainName
+    // check if there is already domain holder for punk domainName
     const domainHolder = await tldContract.getDomainHolder(domainName);
-    await sleep(2000); // to avoid rate limit
 
     // if domain name not minted yet, mint it
     if (domainHolder == ethers.constants.AddressZero) {
-      console.log("Minting domain:", domainName, "for address:", nftOwner);
+      console.log("Minting domain:", domainName, "for address:", recipient);
 
       try {
-        if (nftOwner && nftOwner !== ethers.constants.AddressZero) {
-          const tx = await minterContract.ownerFreeMint(domainName, nftOwner);
+        if (recipient && recipient !== ethers.constants.AddressZero) {
+          const tx = await minterContract.ownerFreeMint(domainName, recipient);
           await tx.wait();
-          await sleep(1000); // to avoid rate limit
         }
       } catch (e) {
         console.log("Domain already minted", e);
-        await sleep(2000); // to avoid rate limit
         continue;
       }
 
@@ -54,7 +59,6 @@ async function main() {
       console.log("Domain already minted:", domainName);
       await sleep(2000);
     }
-
   }
 }
 

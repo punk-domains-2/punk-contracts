@@ -34,6 +34,11 @@ async function main() {
   for (const ensName in ensNames) {
     console.log("ENS name:", ensName);
 
+    if (!ensName.endsWith(".eth")) {
+      console.log("Invalid ENS name:", ensName);
+      continue;
+    }
+
     let ensHolder;
 
     const domainName = ensName.replace(".eth", "");
