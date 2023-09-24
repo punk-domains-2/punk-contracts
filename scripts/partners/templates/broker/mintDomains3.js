@@ -1,17 +1,19 @@
 // script to generate domains from NFT IDs
 // NFT contract is on a DIFFERENT network than the TLD contract
-// npx hardhat run scripts/partners/templates/broker/mintDomains3.js --network flare
+// npx hardhat run scripts/partners/templates/broker/mintDomains3.js --network base
 
-const tldAddress = "<tld-address>";
-const minterAddress = "<domain-minter-address>";
-const nftAddress = "<nft-collection-address>";
+const tldAddress = "";
+const minterAddress = "";
+const nftAddress = "";
 
-const readRpcUrl = "<read-rpc-url>"; // RPC URL for the network where NFT contract is deployed
+// RPC URL for the network where NFT contract is deployed
+const rpcUrls = ["https://eth.llamarpc.com", "https://rpc.ankr.com/eth"]
+const readRpcUrl = rpcUrls[1];
 
 const startNftId = 1;
-const endNftId = 500; 
+const endNftId = 200; 
 
-const namePrefix = "<domain-name-prefix>";
+const namePrefix = "<enter-prefix>";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -49,8 +51,9 @@ async function main() {
     if (domainHolder == ethers.constants.AddressZero) {
       try {
         nftOwner = await nftContract.ownerOf(i);
-        await sleep(2000); // to avoid rate limit
+        await sleep(900); // to avoid rate limit
       } catch (e) {
+        console.log("NFT not found", e);
         continue;
       }
   
@@ -69,7 +72,7 @@ async function main() {
       console.log("Domain minted:", domainName);
     } else {
       console.log("Domain already minted:", domainName);
-      await sleep(2000);
+      await sleep(900);
     }
 
   }

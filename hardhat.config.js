@@ -76,7 +76,7 @@ module.exports = {
       chainId: 14,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
-      gasPrice: 125000000000, // 125 gwei
+      gasPrice: 75000000000, // 75 gwei
     },
     flareCoston: { // Flare Coston Testnet
       url: 'https://coston-api.flare.network/ext/bc/C/rpc',
