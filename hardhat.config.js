@@ -247,7 +247,7 @@ module.exports = {
           browserURL: "https://goerli.arbiscan.io"
         }
       },
-      /* 
+      /* */
       {
         network: "base", // BaseScan (Etherscan)
         chainId: 8453,
@@ -256,8 +256,8 @@ module.exports = {
           browserURL: "https://basescan.org"
         }
       },
-      */
-      /* */
+      
+      /* 
       {
         network: "base", // Blockscout
         chainId: 8453,
@@ -266,7 +266,7 @@ module.exports = {
           browserURL: "https://base.blockscout.com"
         }
       },
-      
+      */
       {
         network: "baseTestnet",
         chainId: 84531,
