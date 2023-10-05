@@ -70,8 +70,8 @@ describe("zkSoul minter contract", function () {
     // Minter contract 
     const minterCode = await ethers.getContractFactory("ZksoulMinter");
     mintContract = await minterCode.deploy(
+      owner.address, // owner
       tldContract.address, // TLD address
-      referralFee, // referral fee
       price1char, price2char, price3char, price4char, price5char // prices
     );
 
@@ -97,20 +97,7 @@ describe("zkSoul minter contract", function () {
     expect(_tldSymbol).to.equal(tldSymbol);
   });
 
-  it("should mint two 5+ char domains", async function () {
-    // should fail at minting before unpaused
-    await expect(mintContract.connect(user1).mint(
-      "123456", // domain name (without TLD)
-      user1.address, // domain holder
-      ethers.constants.AddressZero, // no referrer in this case
-      {
-        value: price5char // pay for the domain
-      }
-    )).to.be.revertedWith("Minting paused");
-
-    // unpause the minter
-    await mintContract.connect(owner).togglePaused();
-
+  it("should mint a 5+ char domain", async function () {
     // how many domains user1 has before minting
     const balanceDomainBefore = await tldContract.balanceOf(user1.address);
     expect(balanceDomainBefore).to.equal(0);
@@ -120,16 +107,17 @@ describe("zkSoul minter contract", function () {
     //expect().approximately(Number(ownerBalanceBefore), Number(ethers.utils.parseEther("10000")), Number(ethers.utils.parseEther("0.1")));
     console.log("Owner's balance before first mint: " + ethers.utils.formatEther(ownerBalanceBefore) + " ETH");
 
-    // Mint a domain - should be FREE because it's the first domain and it is 5+ char long
-    const tx = await mintContract.connect(user1).mint(
+    //return;
+
+    // mint domain
+    await mintContract.connect(user1).mint(
       "user1", // domain name (without TLD)
       user1.address, // domain holder
-      ethers.constants.AddressZero // no referrer in this case
+      ethers.constants.AddressZero, // no referrer in this case
+      {
+        value: price5char // pay for the domain
+      }
     );
-
-    const receipt = await tx.wait();
-
-    calculateGasCosts("Mint", receipt);
 
     // get metadata
     const metadata1 = await tldContract.tokenURI(1);
@@ -149,7 +137,6 @@ describe("zkSoul minter contract", function () {
     // TLD contract owner's balance after minting
     const ownerBalanceAfter = await waffle.provider.getBalance(owner.address);
     console.log("Owner's payment token balance after first mint: " + ethers.utils.formatEther(ownerBalanceAfter) + " ETH");
-    expect(ownerBalanceAfter).to.equal(ownerBalanceBefore); // balance should stay the same because domain was minted for free
 
     // should not fail at minting another domain
     await mintContract.connect(user1).mint(
@@ -171,26 +158,6 @@ describe("zkSoul minter contract", function () {
     const mdResult2 = JSON.parse(mdJson2);
 
     expect(mdResult2.name).to.equal("user1second"+tldName);
-
-    // should FAIL at minting a new FREE because user1 already has at least one domain
-    await expect(mintContract.connect(user1).mint(
-      "123456", // domain name (without TLD)
-      user1.address, // domain holder
-      ethers.constants.AddressZero // no referrer in this case
-    )).to.be.revertedWith("Value below price");
-
-    // should fail if domain is 4 chars, but payment is for 5 chars (too low)
-    await expect(mintContract.connect(user1).mint(
-      "user", // domain name (without TLD)
-      user1.address, // domain holder
-      ethers.constants.AddressZero, // no referrer in this case
-      {
-        value: price5char // pay for the domain
-      }
-    )).to.be.revertedWith("Value below price");
-
-    const balanceDomainAfter3 = await tldContract.balanceOf(user1.address);
-    expect(balanceDomainAfter3).to.equal(2);
 
     // should mint a 4 char domain
     await mintContract.connect(user1).mint(

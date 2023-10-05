@@ -32,11 +32,13 @@ async function main() {
   console.log("Contract address:", instance.address);
 
   // add minter address to the TLD contract
+  /*
   console.log("Adding minter address to the TLD contract...");
   const contractTld = await ethers.getContractFactory("FlexiPunkTLD");
   const instanceTld = await contractTld.attach(tldAddress);
 
   await instanceTld.changeMinter(instance.address);
+  */
 
   console.log("Done!");
 

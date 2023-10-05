@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { OwnableWithManagers } from "../../access/OwnableWithManagers.sol";
+import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../../lib/strings.sol";
 
 interface IFlexiPunkTLD is IERC721 {
@@ -21,7 +21,7 @@ interface IFlexiPunkTLD is IERC721 {
 // - no minting restrictions (anyone can mint)
 // - tiered pricing
 // - revenue goes to the revenue distributor contract address
-contract MinterSimple is Ownable, ReentrancyGuard {
+contract MinterSimple is OwnableWithManagers, ReentrancyGuard {
   address public distributorAddress; // revenue distributor contract address
 
   bool public paused = false;
@@ -102,7 +102,7 @@ contract MinterSimple is Ownable, ReentrancyGuard {
   // OWNER
 
   /// @notice This changes price in the minter contract
-  function changePrice(uint256 _price, uint256 _chars) external onlyOwner {
+  function changePrice(uint256 _price, uint256 _chars) external onlyManagerOrOwner {
     require(_price > 0, "Cannot be zero");
 
     if (_chars == 1) {
@@ -119,7 +119,7 @@ contract MinterSimple is Ownable, ReentrancyGuard {
   }
 
   /// @notice This changes referral fee in the minter contract
-  function changeReferralFee(uint256 _referralFee) external onlyOwner {
+  function changeReferralFee(uint256 _referralFee) external onlyManagerOrOwner {
     require(_referralFee <= 2000, "Cannot exceed 20%");
     referralFee = _referralFee;
   }
@@ -127,27 +127,27 @@ contract MinterSimple is Ownable, ReentrancyGuard {
   function ownerFreeMint(
     string memory _domainName,
     address _domainHolder
-  ) external nonReentrant onlyOwner returns(uint256 tokenId) {
+  ) external nonReentrant onlyManagerOrOwner returns(uint256 tokenId) {
     // mint a domain
     tokenId = tldContract.mint{value: 0}(_domainName, _domainHolder, address(0));
   }
 
   /// @notice Recover any ERC-20 token mistakenly sent to this contract address
-  function recoverERC20(address tokenAddress_, uint256 tokenAmount_, address recipient_) external onlyOwner {
+  function recoverERC20(address tokenAddress_, uint256 tokenAmount_, address recipient_) external onlyManagerOrOwner {
     IERC20(tokenAddress_).transfer(recipient_, tokenAmount_);
   }
 
   /// @notice This changes the distributor address in the minter contract
-  function setDistributorAddress(address _distributorAddress) external onlyOwner {
+  function setDistributorAddress(address _distributorAddress) external onlyManagerOrOwner {
     distributorAddress = _distributorAddress;
   }
 
-  function togglePaused() external onlyOwner {
+  function togglePaused() external onlyManagerOrOwner {
     paused = !paused;
   }
 
   // withdraw ETH from contract
-  function withdraw() external onlyOwner {
+  function withdraw() external onlyManagerOrOwner {
     (bool success, ) = owner().call{value: address(this).balance}("");
     require(success, "Failed to withdraw ETH from contract");
   }
