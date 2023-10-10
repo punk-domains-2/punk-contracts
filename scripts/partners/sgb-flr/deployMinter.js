@@ -1,19 +1,20 @@
-// npx hardhat run scripts/partners/sgb/deployMinter.js --network songbird
+// npx hardhat run scripts/partners/sgb-flr/deployMinter.js --network songbird
 // automatically adds minter address to TLD contract (but check manually)
 
-const contractNameFactory = "SgbMinter";
+const contractNameFactory = "MinterFtso";
 
-const brokerAddress = "0xc4Dbc181bc27b01B6269FB7Fb3c1250C9B922633";
-const stakingAddress = "0xCA9749778327CD67700d3a777731a712330beB9A";
+const distributorAddress = "0x97203DE4aB5f1064618C727D80f16840DB8F4d59";
 const tldAddress = "0xBDACF94dDCAB51c39c2dD50BffEe60Bb8021949a";
+const nativeCoinTicker = "SGB";
 
 const paymentTokenDecimals = 18;
 
-const price1char = ethers.utils.parseUnits("50000", paymentTokenDecimals);
-const price2char = ethers.utils.parseUnits("25000", paymentTokenDecimals);
-const price3char = ethers.utils.parseUnits("7749", paymentTokenDecimals);
-const price4char = ethers.utils.parseUnits("699", paymentTokenDecimals);
-const price5char = ethers.utils.parseUnits("299", paymentTokenDecimals);
+// IMPORTANT: PRICES IN US DOLLARS!!!
+const price1char = ethers.utils.parseUnits("1337", paymentTokenDecimals);
+const price2char = ethers.utils.parseUnits("420", paymentTokenDecimals);
+const price3char = ethers.utils.parseUnits("69", paymentTokenDecimals);
+const price4char = ethers.utils.parseUnits("7", paymentTokenDecimals);
+const price5char = ethers.utils.parseUnits("1", paymentTokenDecimals);
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -24,7 +25,7 @@ async function main() {
   // deploy contract
   const contract = await ethers.getContractFactory(contractNameFactory);
   const instance = await contract.deploy(
-    brokerAddress, stakingAddress, tldAddress,
+    distributorAddress, tldAddress, nativeCoinTicker,
     price1char, price2char, price3char, price4char, price5char
   );
 
@@ -40,7 +41,7 @@ async function main() {
   await tldInstance.changeMinter(instance.address);
 
   console.log("Wait a minute and then run this command to verify contract on the block explorer:");
-  console.log("npx hardhat verify --network " + network.name + " " + instance.address + " " + brokerAddress + " " + stakingAddress + " " + tldAddress + ' "' + price1char + '" "' + price2char + '" "' + price3char + '" "' + price4char + '" "' + price5char + '"');
+  console.log("npx hardhat verify --network " + network.name + " " + instance.address + " " + distributorAddress + " " + tldAddress + ' "' + nativeCoinTicker + '" "' + price1char + '" "' + price2char + '" "' + price3char + '" "' + price4char + '" "' + price5char + '"');
 }
 
 main()
