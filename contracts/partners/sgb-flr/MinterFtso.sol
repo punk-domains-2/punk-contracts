@@ -75,7 +75,9 @@ contract MinterFtso is OwnableWithManagers, ReentrancyGuard {
   // READ
 
   function getNativeCoinPriceWei() public view returns(uint256) {
-    (uint256 price_,, uint256 decimals_) = IFtsoRegistry(IContractRegistry(contractRegistry).getContractAddressByName(ftsoRegistryName)).getCurrentPriceWithDecimals(nativeCoinTicker);
+    (uint256 price_,, uint256 decimals_) = IFtsoRegistry(IContractRegistry(contractRegistry)
+                                            .getContractAddressByName(ftsoRegistryName))
+                                            .getCurrentPriceWithDecimals(nativeCoinTicker);
     return price_ * (10 ** (18 - decimals_));
   }
 

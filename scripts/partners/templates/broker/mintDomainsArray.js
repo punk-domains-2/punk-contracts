@@ -1,19 +1,20 @@
 // script to generate domains from an array of names
-// npx hardhat run scripts/partners/templates/broker/mintDomainsArray.js --network flare
+// npx hardhat run scripts/partners/templates/broker/mintDomainsArray.js --network base
+
+const tldAddress = "";
+const minterAddress = "";
+const domainExtension = ".extension";
 
 const namesArray = [
   {
-    "address": "0xb29050965a5ac70ab487aa47546cdcbc97dae45d",
-    "name": "techie"
+    "address" : "0xaddress",
+    "name" : "somename"
   },
   {
-    "address": "0x5ffd23b1b0350debb17a2cb668929ac5f76d0e18",
-    "name": "tekr"
+    "address" : "0xenterAddress",
+    "name" : "othername"
   }
 ]
-
-const tldAddress = "0xBDACF94dDCAB51c39c2dD50BffEe60Bb8021949a";
-const minterAddress = "0x63f8691b048e68E1C3d6E135aDc81291A9bb1987";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -34,7 +35,7 @@ async function main() {
 
   // loop through the namesArray
   for (let nameObj of namesArray) {
-    const domainName = String(nameObj.name).toLowerCase().trim().replace(".flr", "");
+    const domainName = String(nameObj.name).toLowerCase().trim().replace(domainExtension, "");
     const recipient = nameObj.address;
 
     // check if there is already domain holder for punk domainName
@@ -50,14 +51,33 @@ async function main() {
           await tx.wait();
         }
       } catch (e) {
-        console.log("Domain already minted", e);
-        continue;
+        console.log("Domain "+domainName+domainExtension+" already minted", e);
+        try {
+          if (recipient && recipient !== ethers.constants.AddressZero) {
+            const tx = await minterContract.ownerFreeMint(domainName+"0x", recipient);
+            await tx.wait();
+            console.log("Domain "+domainName+"0x"+domainExtension+" minted instead.");
+          }
+        } catch (e) {
+          console.log("Domain with 0x appended also already minted", e);
+          continue;
+        }
       }
 
       console.log("Domain minted:", domainName);
+      await sleep(1000);
     } else {
-      console.log("Domain already minted:", domainName);
-      await sleep(2000);
+      console.log("Domain "+domainName+domainExtension+" already minted");
+      try {
+        if (recipient && recipient !== ethers.constants.AddressZero) {
+          const tx = await minterContract.ownerFreeMint(domainName+"0x", recipient);
+          await tx.wait();
+          console.log("Domain "+domainName+"0x"+domainExtension+" minted instead.");
+        }
+      } catch (e) {
+        console.log("Domain with 0x appended also already minted", e);
+      }
+      await sleep(1000);
     }
   }
 }

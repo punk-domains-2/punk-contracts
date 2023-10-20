@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // domain minting stats contract
 contract TldStats is Ownable {
   address public tldMinterAddress;
+  uint256 public weiSpentTotal; // total wei spent for domain minting
 
   mapping (address => uint256) public weiSpent; // user => wei spent for domain minting
 
@@ -18,6 +19,7 @@ contract TldStats is Ownable {
   function addWeiSpent(address _user, uint256 _weiSpent) external {
     require(msg.sender == tldMinterAddress, "TldStats: Only TldMinter can add wei spent");
     weiSpent[_user] += _weiSpent;
+    weiSpentTotal += _weiSpent;
   }
 
   // OWNER
