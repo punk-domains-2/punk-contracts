@@ -1,18 +1,18 @@
 // Deploy factory contract only (ForbiddenTlds and FlexiPunkMetadata need to be already deployed)
 // after deployment, factory address will be automatically added to the ForbiddenTlds whitelist and to the Resolver
 // if not, do it manually
-// npx hardhat run scripts/factories/flexi/deployFactoryOnly.js --network taikoGrimsvotn
+// npx hardhat run scripts/factories/flexi/deployFactoryOnly.js --network scroll
 
 async function main() {
   const contractNameFactory = "FlexiPunkTLDFactory";
-  const forbAddress = "<enter-forbidden-tlds-contract-address>";
-  const metaAddress = "<enter-metadata-address>";
-  const resolverAddress = "<enter-resolver-address>"; // IMPORTANT: this script is made for non-upgradable Resolver. If you're using upgradable Resolver, you need to modify this script below (find: PunkResolverNonUpgradable line)
+  const forbAddress = "0xC6c17896fa051083324f2aD0Ed4555dC46D96E7f";
+  const metaAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
+  const resolverAddress = "0xeA2f99fE93E5D07F61334C5Eb9c54c5D5C957a6a"; // IMPORTANT: this script is made for non-upgradable Resolver. If you're using upgradable Resolver, you need to modify this script below (find: PunkResolverNonUpgradable line)
 
   let tldPrice = "40"; // price on testnets
 
   // mainnet prices
-  if (network.config.chainId === 1 || network.config.chainId === 10 || network.config.chainId === 42161) {
+  if (network.config.chainId === 534352) {
     tldPrice = "40"; // ETH
   } else if (network.config.chainId === 137) {
     tldPrice = "80000"; // MATIC

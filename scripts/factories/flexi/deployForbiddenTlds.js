@@ -1,5 +1,5 @@
 // Deploy forbidden contract
-// npx hardhat run scripts/factories/flexi/deployForbiddenTlds.js --network taikoGrimsvotn
+// npx hardhat run scripts/factories/flexi/deployForbiddenTlds.js --network scroll
 
 async function main() {
   const contractNameForb = "PunkForbiddenTlds";

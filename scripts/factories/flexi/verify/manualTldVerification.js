@@ -1,9 +1,11 @@
-// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network songbird
+// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network scroll
 
-const networkName = "songbird";
-const tldAddress = "0xBDACF94dDCAB51c39c2dD50BffEe60Bb8021949a";
+const networkName = "scroll";
+const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
 
 async function main() {
+  console.log("Copy the line below and paste it in your terminal to verify the TLD contract on Etherscan:");
+  console.log("");
   console.log("npx hardhat verify --network " + networkName + " --constructor-args scripts/factories/flexi/verify/arguments.js " + tldAddress);
 }
 

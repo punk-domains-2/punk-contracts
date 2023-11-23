@@ -1,10 +1,10 @@
 module.exports = [
-  ".sgb",
-  ".SGB",
+  ".alscroll",
+  ".ALSCROLL",
   "0xb29050965a5ac70ab487aa47546cdcbc97dae45d",
+  "9000000000000000",
+  true,
   "0",
-  false,
-  "0",
-  "0xea2f99fe93e5d07f61334c5eb9c54c5d5c957a6a",
-  "0xf51f7a532a2aadfe8e2320bf5ba8275503bb3789"
+  "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1",
+  "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789"
 ];

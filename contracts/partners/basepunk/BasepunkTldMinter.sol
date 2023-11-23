@@ -33,8 +33,11 @@ contract BasepunkTldMinter is OwnableWithManagers, ReentrancyGuard {
   address public nftAddress;
   address public statsAddress;
 
+  address[] public partnerNftAddresses; // Partner NFTs that get a discount on minting
+
   bool public paused = true;
 
+  uint256 public discountBps = 5000; // Discount for partner NFTs (in bips, 5000bps = 50%)
   uint256 public referralFee = 1000; // share of each domain purchase (in bips) that goes to the referrer
   uint256 public royaltyFee = 5000; // share of each domain purchase (in bips) that goes to Punk Domains
   uint256 public constant MAX_BPS = 10_000;
@@ -77,6 +80,15 @@ contract BasepunkTldMinter is OwnableWithManagers, ReentrancyGuard {
   }
 
   // READ
+
+  function canMintPartnerNft(address user_) public view returns(bool) {
+    for (uint256 i = 0; i < partnerNftAddresses.length; i++) {
+      if (IERC721(partnerNftAddresses[i]).balanceOf(user_) > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   function hasClaimedFreeDomain(address _nftHolder) external view returns(bool) {
     return claimedFreeDomain[_nftHolder];
@@ -155,7 +167,71 @@ contract BasepunkTldMinter is OwnableWithManagers, ReentrancyGuard {
     tokenId = tldContract.mint{value: 0}(_domainName, _domainHolder, address(0));
   }
 
+  /// @notice A discounted domain mint for partner NFT holders
+  function partnerFreeMint(
+    string memory _domainName,
+    address _domainHolder,
+    address _referrer
+  ) external nonReentrant payable returns(uint256 tokenId) {
+    require(!paused, "Minting paused");
+
+    // check if user owns partner NFT
+    require(canMintPartnerNft(msg.sender), "Sender does not own a partner NFT");
+    
+    // find price
+    uint256 domainLength = strings.len(strings.toSlice(_domainName));
+    uint256 selectedPrice;
+
+    if (domainLength == 1) {
+      selectedPrice = price1char;
+    } else if (domainLength == 2) {
+      selectedPrice = price2char;
+    } else if (domainLength == 3) {
+      selectedPrice = price3char;
+    } else if (domainLength == 4) {
+      selectedPrice = price4char;
+    }  else if (domainLength == 5) {
+      selectedPrice = price5char;
+    } else {
+      selectedPrice = price6char;
+    }
+
+    // apply discount
+    selectedPrice = (selectedPrice * (MAX_BPS - discountBps)) / MAX_BPS;
+
+    require(msg.value >= selectedPrice, "Value below price");
+
+    // send royalty fee
+    if (royaltyFee > 0) {
+      uint256 royaltyPayment = (selectedPrice * royaltyFee) / MAX_BPS;
+      (bool sentRoyaltyFee, ) = tldContract.royaltyFeeReceiver().call{value: royaltyPayment}("");
+      require(sentRoyaltyFee, "Failed to send royalty fee");
+    }
+
+    // send referral fee
+    if (referralFee > 0 && _referrer != address(0)) {
+      uint256 referralPayment = (selectedPrice * referralFee) / MAX_BPS;
+      (bool sentReferralFee, ) = _referrer.call{value: referralPayment}("");
+      require(sentReferralFee, "Failed to send referral fee");
+      selectedPrice = msg.value - referralPayment;
+    }
+
+    // send the rest to distributor
+    (bool sent, ) = distributorAddress.call{value: address(this).balance}("");
+    require(sent, "Failed to send domain payment to distributor contract");
+
+    // mint a domain
+    tokenId = tldContract.mint{value: 0}(_domainName, _domainHolder, address(0));
+
+    // add wei spent to stats
+    ITldStats(statsAddress).addWeiSpent(msg.sender, selectedPrice);
+  }
+
   // OWNER
+
+  function addPartnerNftAddress(address _partnerNftAddress) external onlyManagerOrOwner {
+    partnerNftAddresses.push(_partnerNftAddress);
+  }
 
   /// @notice This changes price in the minter contract
   function changePrice(uint256 _price, uint256 _chars) external onlyManagerOrOwner {
@@ -174,6 +250,11 @@ contract BasepunkTldMinter is OwnableWithManagers, ReentrancyGuard {
     } else if (_chars == 6) {
       price6char = _price;
     }
+  }
+
+  function changePartnerDiscount(uint256 _discountBps) external onlyManagerOrOwner {
+    require(_discountBps < MAX_BPS, "Cannot exceed 100%");
+    discountBps = _discountBps;
   }
 
   /// @notice This changes referral fee in the minter contract
@@ -198,6 +279,16 @@ contract BasepunkTldMinter is OwnableWithManagers, ReentrancyGuard {
   /// @notice Recover any ERC-721 token mistakenly sent to this contract address
   function recoverERC721(address tokenAddress_, uint256 tokenId_, address recipient_) external onlyManagerOrOwner {
     IERC721(tokenAddress_).transferFrom(address(this), recipient_, tokenId_);
+  }
+
+  function removePartnerNftAddress(address _partnerNftAddress) external onlyManagerOrOwner {
+    for (uint256 i = 0; i < partnerNftAddresses.length; i++) {
+      if (partnerNftAddresses[i] == _partnerNftAddress) {
+        partnerNftAddresses[i] = partnerNftAddresses[partnerNftAddresses.length - 1];
+        partnerNftAddresses.pop();
+        break;
+      }
+    }
   }
 
   /// @notice This changes the distributor address in the minter contract
