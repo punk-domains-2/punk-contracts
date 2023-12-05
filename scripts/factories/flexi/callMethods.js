@@ -1,11 +1,11 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network base
+// npx hardhat run scripts/factories/flexi/callMethods.js --network kroma
 
-const forbiddenAddress = "";
-const factoryAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
+const forbiddenAddress = "0xeA2f99fE93E5D07F61334C5Eb9c54c5D5C957a6a";
+const factoryAddress = "0xbbA4dB63DA448C124ee38EeC636b697CA9bdf9e1";
 const tldAddress = "";
-const metadataAddress = "";
+const metadataAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
 
-const domainPrice = ethers.utils.parseUnits("0", "ether");
+const domainPrice = ethers.utils.parseUnits("0.0009", "ether");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -54,17 +54,17 @@ async function main() {
   //await minterContract.togglePaused();
   //await minterContract.transferOwnership(newOwnerAddress);
 
-  // MINT A NEW TLD
-  /*
-  const tldName = ".basebook";
-  const tldSymbol = ".BASEBOOK";
+  // CREATE A NEW TLD
+  /* 
+  const tldName = ".alkroma";
+  const tldSymbol = ".ALKROMA";
    
   const tx = await factoryContract.ownerCreateTld(
     tldName, // TLD name
     tldSymbol, // symbol
     deployer.address, // TLD owner
     domainPrice, // domain price
-    false // buying enabled
+    true // buying enabled
   );
 
   tx.wait();

@@ -1,10 +1,10 @@
 module.exports = [
-  ".alscroll",
-  ".ALSCROLL",
+  ".alkroma",
+  ".ALKROMA",
   "0xb29050965a5ac70ab487aa47546cdcbc97dae45d",
-  "9000000000000000",
+  "900000000000000",
   true,
   "0",
-  "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1",
+  "0xbbA4dB63DA448C124ee38EeC636b697CA9bdf9e1",
   "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789"
 ];

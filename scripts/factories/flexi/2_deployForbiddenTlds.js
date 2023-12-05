@@ -1,5 +1,5 @@
 // Deploy forbidden contract
-// npx hardhat run scripts/factories/flexi/deployForbiddenTlds.js --network scroll
+// npx hardhat run scripts/factories/flexi/2_deployForbiddenTlds.js --network kroma
 
 async function main() {
   const contractNameForb = "PunkForbiddenTlds";

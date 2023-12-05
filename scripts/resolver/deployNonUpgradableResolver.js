@@ -1,5 +1,5 @@
 // Deploy non-upgradable version of Resolver
-// npx hardhat run scripts/resolver/deployNonUpgradableResolver.js --network scroll
+// npx hardhat run scripts/resolver/deployNonUpgradableResolver.js --network kroma
 
 async function main() {
   const contractName = "PunkResolverNonUpgradable";

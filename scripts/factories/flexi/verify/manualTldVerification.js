@@ -1,7 +1,7 @@
-// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network scroll
+// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network kroma
 
-const networkName = "scroll";
-const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
+const networkName = "kroma";
+const tldAddress = "0x6c66f1d5684630fb69350a7a88bcca60629d7252";
 
 async function main() {
   console.log("Copy the line below and paste it in your terminal to verify the TLD contract on Etherscan:");

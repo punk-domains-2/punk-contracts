@@ -92,6 +92,13 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 2000000000, // 1 gwei
     },
+    kroma: { // Kroma mainnet
+      url: "https://api.kroma.network/", 
+      chainId: 255,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
     mainnet: { // Ethereum
       url: 'https://eth-mainnet.g.alchemy.com/v2/' + process.env.ALCHEMY_API_KEY_ETHEREUM,
       chainId: 1,
@@ -228,6 +235,7 @@ module.exports = {
       flare: "randomstring",
       flareCoston: "randomstring",
       ftmTestnet: process.env.FTMSCAN_API_KEY,
+      kroma: "randomstring",
       mainnet: process.env.ETHERSCAN_API_KEY,
       mantleTestnet: "randomstring",
       opera: process.env.FTMSCAN_API_KEY,
@@ -297,6 +305,14 @@ module.exports = {
         urls: {
           apiURL: "https://coston-explorer.flare.network/api",
           browserURL: "https://coston-explorer.flare.network"
+        }
+      },
+      {
+        network: "kroma",
+        chainId: 255,
+        urls: {
+          apiURL: "https://blockscout.kroma.network/api",
+          browserURL: "https://blockscout.kroma.network/"
         }
       },
       {
