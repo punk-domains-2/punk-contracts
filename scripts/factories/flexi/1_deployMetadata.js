@@ -1,5 +1,5 @@
 // Deploy FlexiPunkMetadata contract
-// npx hardhat run scripts/factories/flexi/1_deployMetadata.js --network kroma
+// npx hardhat run scripts/factories/flexi/1_deployMetadata.js --network linea
 
 async function main() {
   const contractName = "FlexiPunkMetadata";

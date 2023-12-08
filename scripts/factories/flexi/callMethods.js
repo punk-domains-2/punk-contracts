@@ -1,9 +1,9 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network kroma
+// npx hardhat run scripts/factories/flexi/callMethods.js --network linea
 
 const forbiddenAddress = "0xeA2f99fE93E5D07F61334C5Eb9c54c5D5C957a6a";
 const factoryAddress = "0xbbA4dB63DA448C124ee38EeC636b697CA9bdf9e1";
 const tldAddress = "";
-const metadataAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
+const metadataAddress = "0xC6c17896fa051083324f2aD0Ed4555dC46D96E7f";
 
 const domainPrice = ethers.utils.parseUnits("0.0009", "ether");
 
@@ -36,10 +36,10 @@ async function main() {
     "function getMetadata(string calldata _domainName, string calldata _tld, uint256 _tokenId) external view returns(string memory)"
   ]);
 
-  //const forbiddenContract = new ethers.Contract(forbiddenAddress, forbiddenInterface, deployer);
+  const forbiddenContract = new ethers.Contract(forbiddenAddress, forbiddenInterface, deployer);
   const factoryContract = new ethers.Contract(factoryAddress, factoryInterface, deployer);
   //const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
-  //const metadataContract = new ethers.Contract(metadataAddress, metadataInterface, deployer);
+  const metadataContract = new ethers.Contract(metadataAddress, metadataInterface, deployer);
 
   //const minterBefore = await contract.minter();
   //console.log("Minter before: " + minterBefore);
@@ -55,9 +55,9 @@ async function main() {
   //await minterContract.transferOwnership(newOwnerAddress);
 
   // CREATE A NEW TLD
-  /* 
-  const tldName = ".alkroma";
-  const tldSymbol = ".ALKROMA";
+  /* */
+  const tldName = ".alinea";
+  const tldSymbol = ".ALINEA";
    
   const tx = await factoryContract.ownerCreateTld(
     tldName, // TLD name
@@ -73,7 +73,7 @@ async function main() {
   
   console.log("TLD address: ");
   console.log(tldAddr);
-  */
+  
 
   // toggle buying domains
   //await tldContract.toggleBuyingDomains();
@@ -90,7 +90,7 @@ async function main() {
   //console.log("price:", Number(price));
 
   // Mint a domain name
-  /*
+  /* 
   await tldContract.mint(
     "tempe", // domain name (without TLD)
     deployer.address, // domain holder

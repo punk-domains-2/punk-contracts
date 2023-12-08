@@ -1,6 +1,6 @@
-// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network kroma
+// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network linea
 
-const networkName = "kroma";
+const networkName = "linea";
 const tldAddress = "0x6c66f1d5684630fb69350a7a88bcca60629d7252";
 
 async function main() {

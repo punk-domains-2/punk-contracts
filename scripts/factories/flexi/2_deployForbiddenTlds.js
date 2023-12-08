@@ -1,5 +1,6 @@
 // Deploy forbidden contract
-// npx hardhat run scripts/factories/flexi/2_deployForbiddenTlds.js --network kroma
+// contractForb.deploy({nonce: 0}); if you want to set nonce manually
+// npx hardhat run scripts/factories/flexi/2_deployForbiddenTlds.js --network linea
 
 async function main() {
   const contractNameForb = "PunkForbiddenTlds";

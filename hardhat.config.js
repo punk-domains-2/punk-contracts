@@ -99,6 +99,13 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
     },
+    linea: { // Linea mainnet
+      url: "https://rpc.linea.build/", 
+      chainId: 59144,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 5000000000, // 8 gwei
+    },
     mainnet: { // Ethereum
       url: 'https://eth-mainnet.g.alchemy.com/v2/' + process.env.ALCHEMY_API_KEY_ETHEREUM,
       chainId: 1,
@@ -235,7 +242,8 @@ module.exports = {
       flare: "randomstring",
       flareCoston: "randomstring",
       ftmTestnet: process.env.FTMSCAN_API_KEY,
-      kroma: "randomstring",
+      kroma: process.env.KROMASCAN_API_KEY,
+      linea: process.env.LINEASCAN_API_KEY,
       mainnet: process.env.ETHERSCAN_API_KEY,
       mantleTestnet: "randomstring",
       opera: process.env.FTMSCAN_API_KEY,
@@ -307,12 +315,33 @@ module.exports = {
           browserURL: "https://coston-explorer.flare.network"
         }
       },
+
+      /* */
+      {
+        network: "kroma", // KromaScan (Etherscan)
+        chainId: 255,
+        urls: {
+          apiURL: "https://api.kromascan.com/api",
+          browserURL: "https://kromascan.com"
+        }
+      },
+      
+      /* 
       {
         network: "kroma",
         chainId: 255,
         urls: {
           apiURL: "https://blockscout.kroma.network/api",
           browserURL: "https://blockscout.kroma.network/"
+        }
+      },
+      */
+      {
+        network: "linea",
+        chainId: 59144,
+        urls: {
+          apiURL: "https://api.lineascan.build/api",
+          browserURL: "https://lineascan.build"
         }
       },
       {
