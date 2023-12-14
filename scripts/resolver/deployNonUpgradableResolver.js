@@ -1,5 +1,5 @@
 // Deploy non-upgradable version of Resolver
-// npx hardhat run scripts/resolver/deployNonUpgradableResolver.js --network linea
+// npx hardhat run scripts/resolver/deployNonUpgradableResolver.js --network taikoJolnir
 
 async function main() {
   const contractName = "PunkResolverNonUpgradable";

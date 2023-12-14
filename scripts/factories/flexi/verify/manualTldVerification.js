@@ -1,7 +1,7 @@
-// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network linea
+// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network taikoJolnir
 
-const networkName = "linea";
-const tldAddress = "0x6c66f1d5684630fb69350a7a88bcca60629d7252";
+const networkName = "taikoJolnir";
+const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
 
 async function main() {
   console.log("Copy the line below and paste it in your terminal to verify the TLD contract on Etherscan:");

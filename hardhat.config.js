@@ -206,16 +206,9 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 25000000000, // 25 gwei
     },
-    taikoEldfell: { // Taiko Eldfell testnet (L3)
-      url: 'https://rpc.l3test.taiko.xyz',
-      chainId: 167006,
-      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
-      gas: "auto", // gas limit
-      gasPrice: 1000000000, // 1 gwei
-    },
-    taikoGrimsvotn: { // Taiko Grimsvotn testnet (L2)
-      url: 'https://rpc.test.taiko.xyz',
-      chainId: 167005,
+    taikoJolnir: { // Taiko testnet (L2)
+      url: 'https://rpc.jolnir.taiko.xyz',
+      chainId: 167007,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
@@ -258,8 +251,7 @@ module.exports = {
       sepolia: process.env.ETHERSCAN_API_KEY,
       sokol: "randomstring",
       songbird: "randomstring",
-      taikoEldfell: "randomstring",
-      taikoGrimsvotn: "randomstring",
+      taikoJolnir: "42069",
       xdai: process.env.GNOSISSCAN_API_KEY
     },
     customChains: [
@@ -393,19 +385,12 @@ module.exports = {
         }
       },
       {
-        network: "taikoEldfell",
-        chainId: 167006,
+        network: "taikoJolnir",
+        chainId: 167007,
         urls: {
-          apiURL: "https://explorer.l3test.taiko.xyz/api",
-          browserURL: "https://explorer.l3test.taiko.xyz/"
-        }
-      },
-      {
-        network: "taikoGrimsvotn",
-        chainId: 167005,
-        urls: {
-          apiURL: "https://explorer.test.taiko.xyz/api",
-          browserURL: "https://explorer.test.taiko.xyz/"
+          //apiURL: "https://api.routescan.io/v2/network/testnet/evm/167007/etherscan",
+          apiURL: "https://explorer.jolnir.taiko.xyz/api",
+          browserURL: "https://explorer.jolnir.taiko.xyz/"
         }
       },
       // Comment out the xdai object below to verify on Blockscout. Uncomment to verify on Gnosis Scan.

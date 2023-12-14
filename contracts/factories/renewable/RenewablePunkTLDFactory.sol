@@ -90,7 +90,8 @@ contract RenewablePunkTLDFactory is Ownable, ReentrancyGuard {
 
     _validTldName(_name);
 
-    RenewablePunkTLD tld = new RenewablePunkTLD(
+    bytes32 saltedHash = keccak256(abi.encodePacked(msg.sender, block.timestamp)); // salt for TLD to have a unique address
+    RenewablePunkTLD tld = new RenewablePunkTLD{salt: saltedHash}(
       _name, 
       _symbol, 
       _tldOwner,
