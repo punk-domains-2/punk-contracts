@@ -1,11 +1,11 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network taikoJolnir
+// npx hardhat run scripts/factories/flexi/callMethods.js --network zkfair
 
 const forbiddenAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
 const factoryAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
-const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
+const tldAddress = "";
 const metadataAddress = "0xC6c17896fa051083324f2aD0Ed4555dC46D96E7f";
 
-const domainPrice = ethers.utils.parseUnits("0.0009", "ether");
+const domainPrice = ethers.utils.parseUnits("1.69", "ether");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -56,10 +56,10 @@ async function main() {
 
   // CREATE A NEW TLD
   /* */
-  const tldName = ".testaiko";
-  const tldSymbol = ".TESTAIKO";
+  const tldName = ".fairchat";
+  const tldSymbol = ".FAIRCHAT";
    
-  /*
+  /* */
   const tx = await factoryContract.ownerCreateTld(
     tldName, // TLD name
     tldSymbol, // symbol
@@ -69,7 +69,7 @@ async function main() {
   );
 
   tx.wait();
-  */
+ 
   
   const tldAddr = await factoryContract.tldNamesAddresses(tldName);
   

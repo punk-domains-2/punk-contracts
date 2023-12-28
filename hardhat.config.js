@@ -219,6 +219,13 @@ module.exports = {
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
       gasPrice: 20000000000, // 20 gwei
+    },
+    zkfair: { // zkFair mainnet
+      url: 'https://rpc.zkfair.io',
+      chainId: 42766,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 10000000000000, // 10000 gwei
     }
   },
 
@@ -252,7 +259,8 @@ module.exports = {
       sokol: "randomstring",
       songbird: "randomstring",
       taikoJolnir: "42069",
-      xdai: process.env.GNOSISSCAN_API_KEY
+      xdai: process.env.GNOSISSCAN_API_KEY,
+      zkfair: "randomstring"
     },
     customChains: [
       {
@@ -401,7 +409,15 @@ module.exports = {
           apiURL: "https://api.gnosisscan.io/api",
           browserURL: "https://gnosisscan.io"
         }
-      }
+      },
+      {
+        network: "zkfair",
+        chainId: 42766,
+        urls: {
+          apiURL: "https://scan.zkfair.io/api",
+          browserURL: "https://scan.zkfair.io/"
+        }
+      },
     ]
   },
 

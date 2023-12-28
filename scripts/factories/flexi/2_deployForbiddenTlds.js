@@ -1,6 +1,6 @@
 // Deploy forbidden contract
 // contractForb.deploy({nonce: 0}); if you want to set nonce manually
-// npx hardhat run scripts/factories/flexi/2_deployForbiddenTlds.js --network taikoJolnir
+// npx hardhat run scripts/factories/flexi/2_deployForbiddenTlds.js --network zkfair
 
 async function main() {
   const contractNameForb = "PunkForbiddenTlds";
