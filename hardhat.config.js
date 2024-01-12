@@ -29,6 +29,14 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
     },
+    arbitrumNova: {
+      //url: "https://arbitrum-nova.public.blastapi.io",
+      url: "https://nova.arbitrum.io/rpc",
+      chainId: 42170,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 10000000, // 0.01 gwei
+    },
     arbitrumTestnet: {
       url: 'https://rinkeby.arbitrum.io/rpc',
       chainId: 421611,
@@ -60,6 +68,13 @@ module.exports = {
     baseTestnet: {
       url: 'https://base-goerli.public.blastapi.io',
       chainId: 84531,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
+    bitfinityTestnet: {
+      url: 'https://testnet.bitfinity.network',
+      chainId: 355113,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
@@ -232,8 +247,9 @@ module.exports = {
   etherscan: {
     apiKey: { // all possible key names here: https://gist.github.com/tempe-techie/95a3ad4e81b46c895928a0524fc2b7ac
       arbitrumOne: process.env.ARBISCAN_API_KEY,
-      arbitrumTestnet: process.env.ARBISCAN_API_KEY,
       arbitrumGoerli: process.env.ARBISCAN_API_KEY,
+      arbitrumNova: process.env.NOVAARBISCAN_API_KEY,
+      arbitrumTestnet: process.env.ARBISCAN_API_KEY,
       aurora: process.env.AURORASCAN_API_KEY,
       auroraTestnet: process.env.AURORASCAN_API_KEY,
       base: process.env.BASESCAN_API_KEY,
@@ -271,6 +287,14 @@ module.exports = {
           browserURL: "https://goerli.arbiscan.io"
         }
       },
+      {
+        network: "arbitrumNova",
+        chainId: 42170,
+        urls: {
+          apiURL: "https://api-nova.arbiscan.io/api",
+          browserURL: "https://nova.arbiscan.io"
+        }
+      },
       /* */
       {
         network: "base", // BaseScan (Etherscan)
@@ -299,6 +323,16 @@ module.exports = {
           browserURL: "https://base-goerli.blockscout.com" // "https://goerli.basescan.org" 
         }
       },
+      /*
+      {
+        network: "bitfinityTestnet",
+        chainId: 355113,
+        urls: {
+          apiURL: "https://base-goerli.blockscout.com/api", // "https://api-goerli.basescan.org/api",
+          browserURL: "https://base-goerli.blockscout.com" // "https://goerli.basescan.org" 
+        }
+      },
+      */
       {
         network: "flare",
         chainId: 14,

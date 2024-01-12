@@ -2,7 +2,7 @@
 
 const forbiddenAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
 const factoryAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
-const tldAddress = "";
+const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
 const metadataAddress = "0xC6c17896fa051083324f2aD0Ed4555dC46D96E7f";
 
 const domainPrice = ethers.utils.parseUnits("1.69", "ether");
@@ -26,6 +26,7 @@ async function main() {
   const tldInterface = new ethers.utils.Interface([
     "function buyingEnabled() external view returns(bool)",
     "function changePrice(uint256 _price) external",
+    "function domainIdsNames(uint256 _tokenId) external view returns(string memory)",
     "function mint(string memory,address,address) external payable returns(uint256)",
     "function price() external view returns(uint256)",
     "function toggleBuyingDomains() external",
@@ -38,7 +39,7 @@ async function main() {
 
   const forbiddenContract = new ethers.Contract(forbiddenAddress, forbiddenInterface, deployer);
   const factoryContract = new ethers.Contract(factoryAddress, factoryInterface, deployer);
-  //const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
+  const tldContract = new ethers.Contract(tldAddress, tldInterface, deployer);
   const metadataContract = new ethers.Contract(metadataAddress, metadataInterface, deployer);
 
   //const minterBefore = await contract.minter();
@@ -59,7 +60,7 @@ async function main() {
   const tldName = ".fairchat";
   const tldSymbol = ".FAIRCHAT";
    
-  /* */
+  /* 
   const tx = await factoryContract.ownerCreateTld(
     tldName, // TLD name
     tldSymbol, // symbol
@@ -69,13 +70,14 @@ async function main() {
   );
 
   tx.wait();
- 
+  */
   
+  /*
   const tldAddr = await factoryContract.tldNamesAddresses(tldName);
   
   console.log("TLD address: ");
   console.log(tldAddr);
-  
+  */
 
   // toggle buying domains
   //await tldContract.toggleBuyingDomains();
@@ -118,6 +120,12 @@ async function main() {
   console.log("metadata:");
   console.log(metadata);
   */
+
+  // GET DOMAIN NAME FROM THE TLD CONTRACT
+  const tokenId = 657; //954;
+  const domainName = await tldContract.domainIdsNames(tokenId);
+  console.log(domainName);
+  console.log("domainName:", domainName);
 
   console.log("Method calls completed");
 }

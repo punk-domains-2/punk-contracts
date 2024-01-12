@@ -105,7 +105,7 @@ contract BasedTldMinter is OwnableWithManagers, ReentrancyGuard {
       selectedPrice = price3char;
     } else if (domainLength == 4) {
       selectedPrice = price4char;
-    }  else if (domainLength == 5) {
+    } else if (domainLength == 5) {
       selectedPrice = price5char;
     } else {
       selectedPrice = price6char;
