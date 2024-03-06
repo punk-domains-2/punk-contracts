@@ -164,12 +164,12 @@ module.exports = {
       gasPrice: 1000000000, // 1 gwei
     },
     polygon: {
-      //url: 'https://polygon-mainnet.g.alchemy.com/v2/' + process.env.ALCHEMY_API_KEY_POLYGON,
-      url: 'https://1rpc.io/matic',
+      url: 'https://polygon-mainnet.g.alchemy.com/v2/' + process.env.ALCHEMY_API_KEY_POLYGON,
+      //url: 'https://1rpc.io/matic',
       chainId: 137,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
-      gasPrice: 200000000000, // 100 gwei
+      gasPrice: 100000000000, // 100 gwei
     },
     polygonMumbai: {
       url: 'https://polygon-mumbai.g.alchemy.com/v2/' + process.env.ALCHEMY_API_KEY_MUMBAI,
@@ -193,6 +193,20 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 20000000000, // 20 gwei
     },
+    satoshivmTestnet: { // SatoshiVM testnet
+      url: 'https://test-rpc-node-http.svmscan.io/',
+      chainId: 3110,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 10000000, // 0.01 gwei
+    },
+    scroll: { // Scroll Mainnet
+      url: 'https://rpc.scroll.io',
+      chainId: 534352,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
     sepolia: { // Sepolia testnet
       url: 'https://rpc2.sepolia.org',
       chainId: 11155111,
@@ -207,13 +221,6 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 40000000000, // 20 gwei
     },
-    scroll: { // Scroll Mainnet
-      url: 'https://rpc.scroll.io',
-      chainId: 534352,
-      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
-      gas: "auto", // gas limit
-      gasPrice: 1000000000, // 1 gwei
-    },
     songbird: { // Songbird Mainnet
       url: 'https://songbird-api.flare.network/ext/C/rpc',
       chainId: 19,
@@ -224,6 +231,13 @@ module.exports = {
     taikoJolnir: { // Taiko testnet (L2)
       url: 'https://rpc.jolnir.taiko.xyz',
       chainId: 167007,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
+    taikoKatla: { // Taiko testnet (L2)
+      url: 'https://rpc.katla.taiko.xyz',
+      chainId: 167008,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
@@ -270,11 +284,13 @@ module.exports = {
       polygonMumbai: process.env.POLYGONSCAN_API_KEY, 
       polygonZkEvm: process.env.POLYGONSCAN_ZKEVM_API_KEY, 
       polygonZkEvmTestnet: process.env.POLYGONSCAN_ZKEVM_API_KEY, 
+      satoshivmTestnet: "randomstring",
       scroll: process.env.SCROLLSCAN_API_KEY,
       sepolia: process.env.ETHERSCAN_API_KEY,
       sokol: "randomstring",
       songbird: "randomstring",
       taikoJolnir: "42069",
+      taikoKatla: "42069",
       xdai: process.env.GNOSISSCAN_API_KEY,
       zkfair: "randomstring"
     },
@@ -411,6 +427,14 @@ module.exports = {
         }
       },
       {
+        network: "satoshivmTestnet",
+        chainId: 3110,
+        urls: {
+          apiURL: "https://testnet.svmscan.io/api",
+          browserURL: "https://testnet.svmscan.io/"
+        }
+      },
+      {
         network: "scroll",
         chainId: 534352,
         urls: {
@@ -433,6 +457,15 @@ module.exports = {
           //apiURL: "https://api.routescan.io/v2/network/testnet/evm/167007/etherscan",
           apiURL: "https://explorer.jolnir.taiko.xyz/api",
           browserURL: "https://explorer.jolnir.taiko.xyz/"
+        }
+      },
+      {
+        network: "taikoKatla",
+        chainId: 167008,
+        urls: {
+          //apiURL: "https://api.routescan.io/v2/network/testnet/evm/167007/etherscan",
+          apiURL: "https://explorer.katla.taiko.xyz/api",
+          browserURL: "https://explorer.katla.taiko.xyz/"
         }
       },
       // Comment out the xdai object below to verify on Blockscout. Uncomment to verify on Gnosis Scan.

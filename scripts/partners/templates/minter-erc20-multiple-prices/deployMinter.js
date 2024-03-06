@@ -4,8 +4,8 @@
 const contractNameFactory = "MinterErc20MultiplePrices";
 
 const devAddress = "0xb29050965A5AC70ab487aa47546cdCBc97dAE45D";
-const teamAddress = "";
-const tldAddress = "";
+const teamAddress = "0x1e7487b34CDeF80536F70e085AC875d7b7cC6812";
+const tldAddress = "0xc2C543D39426bfd1dB66bBde2Dd9E4a5c7212876";
 const tokenAddress = "0xb65aD8d81d1E4Cb2975352338805AF6e39BA8Be8";
 
 const paymentTokenDecimals = 18;

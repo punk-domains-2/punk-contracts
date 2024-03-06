@@ -1,8 +1,8 @@
 // Deploy FlexiPunkMetadata contract
-// npx hardhat run scripts/factories/flexi/1_deployMetadata.js --network taikoKatla
+// npx hardhat run scripts/partners/basin/deployMetadata.js --network polygon
 
 async function main() {
-  const contractName = "FlexiPunkMetadata";
+  const contractName = "BasinMetadata3";
 
   const [deployer] = await ethers.getSigners();
 
