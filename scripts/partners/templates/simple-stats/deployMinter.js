@@ -1,9 +1,10 @@
-// npx hardhat run scripts/partners/templates/simple/deployMinter.js --network degen
+// npx hardhat run scripts/partners/templates/simple-stats/deployMinter.js --network degen
 // it automatically adds minter address to the TLD contract as minter
 
-const contractNameFactory = "MinterSimple";
+const contractNameFactory = "MinterSimpleStats";
 
 const distributorAddress = "0xb29050965A5AC70ab487aa47546cdCBc97dAE45D";
+const statsAddress = "0x06A7Ab7Bb68b0ad6eB7688C5781E60BE6AFc658d"; // stats middleware address
 const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
 
 const paymentTokenDecimals = 18;
@@ -23,7 +24,7 @@ async function main() {
   // deploy contract
   const contract = await ethers.getContractFactory(contractNameFactory);
   const instance = await contract.deploy(
-    distributorAddress, tldAddress,
+    distributorAddress, statsAddress, tldAddress,
     price1char, price2char, price3char, price4char, price5char
   );
 
@@ -40,8 +41,16 @@ async function main() {
 
   console.log("Done!");
 
+  // add minter address to the Stats contract
+  console.log("Adding minter address to the Stats contract...");
+  const contractStats = await ethers.getContractFactory("TldStats");
+  const instanceStats = await contractStats.attach(statsAddress);
+
+  const tx2 = await instanceStats.setTldMinterAddress(instance.address);
+  await tx2.wait();
+
   console.log("Wait a minute and then run this command to verify contract on the block explorer:");
-  console.log("npx hardhat verify --network " + network.name + " " + instance.address + " " + distributorAddress + " " + tldAddress + ' "' + price1char + '" "' + price2char + '" "' + price3char + '" "' + price4char + '" "' + price5char + '"');
+  console.log("npx hardhat verify --network " + network.name + " " + instance.address + " " + distributorAddress + " " + statsAddress + " " + tldAddress + ' "' + price1char + '" "' + price2char + '" "' + price3char + '" "' + price4char + '" "' + price5char + '"');
 }
 
 main()

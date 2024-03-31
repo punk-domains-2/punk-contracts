@@ -86,6 +86,13 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 5000000000, // 5 gwei
     },
+    degen: { // DEGEN L3 Chain mainnet
+      url: 'https://rpc.degen.tips',
+      chainId: 666666666,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 25000000000, // 25 gwei
+    },
     flare: { // Flare mainnet
       url: 'https://flare-api.flare.network/ext/C/rpc',
       chainId: 14,
@@ -269,6 +276,7 @@ module.exports = {
       base: process.env.BASESCAN_API_KEY,
       baseTestnet: process.env.BASESCAN_API_KEY,
       bsc: process.env.BSC_API_KEY,
+      degen: "randomstring",
       flare: "randomstring",
       flareCoston: "randomstring",
       ftmTestnet: process.env.FTMSCAN_API_KEY,
@@ -349,6 +357,14 @@ module.exports = {
         }
       },
       */
+      {
+        network: "degen",
+        chainId: 666666666,
+        urls: {
+          apiURL: "https://explorer.degen.tips/api",
+          browserURL: "https://explorer.degen.tips"
+        }
+      },
       {
         network: "flare",
         chainId: 14,

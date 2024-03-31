@@ -1,8 +1,8 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network zkfair
+// npx hardhat run scripts/factories/flexi/callMethods.js --network degen
 
 const forbiddenAddress = "";
-const factoryAddress = "";
-const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
+const factoryAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
+const tldAddress = "";
 const metadataAddress = "";
 
 const domainPrice = ethers.utils.parseUnits("0.0001", "ether");
@@ -72,27 +72,26 @@ async function main() {
   //await minterContract.transferOwnership(newOwnerAddress);
 
   // CREATE A NEW TLD
-  // const tldName = ".ktaiko";
-  // const tldSymbol = ".KTAIKO";
+  const tldName = ".degen";
+  const tldSymbol = ".DEGEN";
    
-  /* 
+  /* */
   const tx = await factoryContract.ownerCreateTld(
     tldName, // TLD name
     tldSymbol, // symbol
     deployer.address, // TLD owner
-    domainPrice, // domain price
-    true // buying enabled
+    0, //domainPrice, // domain price
+    false // buying enabled
   );
 
   tx.wait();
-  */
   
-  /* 
+  /* */
   const tldAddr = await factoryContract.tldNamesAddresses(tldName);
   
   console.log("TLD address: ");
   console.log(tldAddr);
-  */
+  
 
   // toggle buying domains
   //await tldContract.toggleBuyingDomains();

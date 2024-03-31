@@ -1,12 +1,11 @@
-// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network satoshivmTestnet
+// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network degen
 
-const networkName = "satoshivmTestnet";
-const tldAddress = "0xbdacf94ddcab51c39c2dd50bffee60bb8021949a";
+const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
 
 async function main() {
   console.log("Copy the line below and paste it in your terminal to verify the TLD contract on Etherscan:");
   console.log("");
-  console.log("npx hardhat verify --network " + networkName + " --constructor-args scripts/factories/flexi/verify/arguments.js " + tldAddress);
+  console.log("npx hardhat verify --network " + network.name + " --constructor-args scripts/factories/flexi/verify/arguments.js " + tldAddress);
 }
 
 main()
