@@ -1,6 +1,6 @@
-// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network degen
+// Run: npx hardhat run scripts/factories/flexi/verify/manualTldVerification.js --network sepolia
 
-const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
+const tldAddress = "0x1DD820F4f48eBC2B8e7F666F34fbC5820808074e";
 
 async function main() {
   console.log("Copy the line below and paste it in your terminal to verify the TLD contract on Etherscan:");

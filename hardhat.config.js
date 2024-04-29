@@ -91,7 +91,7 @@ module.exports = {
       chainId: 666666666,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
-      gasPrice: 25000000000, // 25 gwei
+      gasPrice: 20000000000, // 20 gwei
     },
     flare: { // Flare mainnet
       url: 'https://flare-api.flare.network/ext/C/rpc',
@@ -214,6 +214,13 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
     },
+    scrollTestnet: { // Scroll Testnet
+      url: 'https://sepolia-rpc.scroll.io',
+      chainId: 534351,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
     sepolia: { // Sepolia testnet
       url: 'https://rpc2.sepolia.org',
       chainId: 11155111,
@@ -294,6 +301,7 @@ module.exports = {
       polygonZkEvmTestnet: process.env.POLYGONSCAN_ZKEVM_API_KEY, 
       satoshivmTestnet: "randomstring",
       scroll: process.env.SCROLLSCAN_API_KEY,
+      scrollTestnet: process.env.SCROLLSCAN_API_KEY,
       sepolia: process.env.ETHERSCAN_API_KEY,
       sokol: "randomstring",
       songbird: "randomstring",
@@ -456,6 +464,14 @@ module.exports = {
         urls: {
           apiURL: "https://api.scrollscan.com/api",
           browserURL: "https://scrollscan.com/"
+        }
+      },
+      {
+        network: "scrollTestnet",
+        chainId: 534351,
+        urls: {
+          apiURL: "https://api-sepolia.scrollscan.com/api",
+          browserURL: "https://sepolia.scrollscan.dev/"
         }
       },
       {
