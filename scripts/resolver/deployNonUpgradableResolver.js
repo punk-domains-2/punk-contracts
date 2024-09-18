@@ -1,5 +1,5 @@
 // Deploy non-upgradable version of Resolver
-// npx hardhat run scripts/resolver/deployNonUpgradableResolver.js --network sepolia
+// npx hardhat run scripts/resolver/deployNonUpgradableResolver.js --network superposition
 
 async function main() {
   const contractName = "PunkResolverNonUpgradable";

@@ -1,5 +1,5 @@
 // Deploy metadata contract
-// npx hardhat run scripts/partners/stats/deployStats.js --network base
+// npx hardhat run scripts/partners/stats/deployStats.js --network taiko
 
 async function main() {
   const contractName = "TldStats";

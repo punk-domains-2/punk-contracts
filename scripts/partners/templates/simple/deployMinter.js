@@ -1,18 +1,18 @@
-// npx hardhat run scripts/partners/templates/simple/deployMinter.js --network degen
+// npx hardhat run scripts/partners/templates/simple/deployMinter.js --network superposition
 // it automatically adds minter address to the TLD contract as minter
 
 const contractNameFactory = "MinterSimple";
 
-const distributorAddress = "0xb29050965A5AC70ab487aa47546cdCBc97dAE45D";
+const distributorAddress = "0x98a37848dc2D0F07dE151Da3b3b92541563E1791";
 const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
 
 const paymentTokenDecimals = 18;
 
-const price1char = ethers.utils.parseUnits("42069", paymentTokenDecimals);
-const price2char = ethers.utils.parseUnits("6969", paymentTokenDecimals);
-const price3char = ethers.utils.parseUnits("999", paymentTokenDecimals);
-const price4char = ethers.utils.parseUnits("666", paymentTokenDecimals);
-const price5char = ethers.utils.parseUnits("69", paymentTokenDecimals);
+const price1char = ethers.utils.parseUnits("10", paymentTokenDecimals);
+const price2char = ethers.utils.parseUnits("1", paymentTokenDecimals);
+const price3char = ethers.utils.parseUnits("0.1", paymentTokenDecimals);
+const price4char = ethers.utils.parseUnits("0.01", paymentTokenDecimals);
+const price5char = ethers.utils.parseUnits("0.0019", paymentTokenDecimals);
 
 async function main() {
   const [deployer] = await ethers.getSigners();

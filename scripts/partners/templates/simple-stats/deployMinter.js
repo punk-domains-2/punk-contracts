@@ -1,19 +1,19 @@
-// npx hardhat run scripts/partners/templates/simple-stats/deployMinter.js --network degen
+// npx hardhat run scripts/partners/templates/simple-stats/deployMinter.js --network taiko
 // it automatically adds minter address to the TLD contract as minter
 
 const contractNameFactory = "MinterSimpleStats";
 
-const distributorAddress = "0xb29050965A5AC70ab487aa47546cdCBc97dAE45D";
-const statsAddress = "0x06A7Ab7Bb68b0ad6eB7688C5781E60BE6AFc658d"; // stats middleware address
+const distributorAddress = "0xE08033d0bDBcEbE7e619c3aE165E7957Ab577961";
+const statsAddress = "0xa97c7AF10ee564EBf452A9347bB9653454Ba69C0"; // stats middleware address
 const tldAddress = "0x4087fb91A1fBdef05761C02714335D232a2Bf3a1";
 
 const paymentTokenDecimals = 18;
 
-const price1char = ethers.utils.parseUnits("42069", paymentTokenDecimals);
-const price2char = ethers.utils.parseUnits("6969", paymentTokenDecimals);
-const price3char = ethers.utils.parseUnits("999", paymentTokenDecimals);
-const price4char = ethers.utils.parseUnits("666", paymentTokenDecimals);
-const price5char = ethers.utils.parseUnits("69", paymentTokenDecimals);
+const price1char = ethers.utils.parseUnits("1", paymentTokenDecimals);
+const price2char = ethers.utils.parseUnits("0.1", paymentTokenDecimals);
+const price3char = ethers.utils.parseUnits("0.05", paymentTokenDecimals);
+const price4char = ethers.utils.parseUnits("0.002", paymentTokenDecimals);
+const price5char = ethers.utils.parseUnits("0.0009", paymentTokenDecimals);
 
 async function main() {
   const [deployer] = await ethers.getSigners();

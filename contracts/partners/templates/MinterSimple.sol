@@ -24,7 +24,7 @@ interface IFlexiPunkTLD is IERC721 {
 contract MinterSimple is OwnableWithManagers, ReentrancyGuard {
   address public distributorAddress; // revenue distributor contract address
 
-  bool public paused = false;
+  bool public paused = true;
 
   uint256 public referralFee = 1000; // share of each domain purchase (in bips) that goes to the referrer
   uint256 public constant MAX_BPS = 10_000;

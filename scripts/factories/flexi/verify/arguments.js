@@ -1,10 +1,10 @@
 module.exports = [
-  ".sepolia",
-  ".SEPOLIA",
+  ".meow",
+  ".MEOW",
   "0xb29050965a5ac70ab487aa47546cdcbc97dae45d",
-  "100000000000000",
-  true,
   "0",
-  "0xE806C55bd917Ccf93d66CE814e242878fc230CA2",
-  "0xA83351811cea7cd4154eDa649c2fff1c770e0Af7"
+  false,
+  "0",
+  "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1",
+  "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789"
 ];

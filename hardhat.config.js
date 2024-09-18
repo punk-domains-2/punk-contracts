@@ -242,6 +242,27 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 25000000000, // 25 gwei
     },
+    superposition: { // Superposition mainnet
+      url: 'https://rpc.superposition.so/',
+      chainId: 55244,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 10000000, // 0.01 gwei
+    },
+    superpositionTestnet: { // Superposition testnet
+      url: 'https://testnet-rpc.superposition.so/',
+      chainId: 98985,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 20000000, // 0.02 gwei
+    },
+    taiko: { // Taiko mainnet
+      url: 'https://rpc.taiko.xyz',
+      chainId: 167000,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 20000000, // 0.02 gwei
+    },
     taikoHekla: { // Taiko testnet (L2)
       url: 'https://rpc.hekla.taiko.xyz',
       chainId: 167009,
@@ -312,6 +333,9 @@ module.exports = {
       sepolia: process.env.ETHERSCAN_API_KEY,
       sokol: "randomstring",
       songbird: "randomstring",
+      superposition: "randomstring",
+      superpositionTestnet: "randomstring",
+      taiko: process.env.TAIKOSCAN_API_KEY,
       taikoHekla: "42069",
       taikoJolnir: "42069",
       taikoKatla: "42069",
@@ -491,10 +515,37 @@ module.exports = {
         }
       },
       {
+        network: "superposition",
+        chainId: 55244,
+        urls: {
+          apiURL: "https://explorer.superposition.so/api",
+          browserURL: "https://explorer.superposition.so/"
+        }
+      },
+      {
+        network: "superpositionTestnet",
+        chainId: 98985,
+        urls: {
+          apiURL: "https://testnet-explorer.superposition.so/api",
+          browserURL: "https://testnet-explorer.superposition.so/"
+        }
+      },
+      { 
+        network: "taiko",
+        chainId: 167000,
+        urls: {
+          apiURL: "https://api.taikoscan.io/api",
+          browserURL: "https://taikoscan.io"
+          //apiURL: "https://api.w3w.ai/taiko/v1/explorer/command_api/contract",
+          //browserURL: "https://taikoscan.net"
+          //apiURL: "https://api.routescan.io/v2/network/mainnet/evm/167000/etherscan",
+          //browserURL: "https://taikoscan.network"
+        }
+      },
+      {
         network: "taikoHekla",
         chainId: 167009,
         urls: {
-          //apiURL: "https://api.routescan.io/v2/network/testnet/evm/167009/etherscan",
           apiURL: "https://blockscoutapi.hekla.taiko.xyz/api",
           browserURL: "https://blockscoutapi.hekla.taiko.xyz"
         }

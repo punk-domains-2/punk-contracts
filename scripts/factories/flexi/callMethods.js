@@ -1,11 +1,11 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network sepolia
+// npx hardhat run scripts/factories/flexi/callMethods.js --network superpositionTestnet
 
-const forbiddenAddress = "0x44bBD7Ad92c1C1C0d48C0405666D9693FE285629";
-const factoryAddress = "0xE806C55bd917Ccf93d66CE814e242878fc230CA2";
-const tldAddress = "";
-const metadataAddress = "0xA83351811cea7cd4154eDa649c2fff1c770e0Af7";
+const forbiddenAddress = "";
+const factoryAddress = "0x1D882E64bb7f4D49e67018d81254236A2A6465a3";
+const tldAddress = ""; // .🥁 TLD
+const metadataAddress = "";
 
-const domainPrice = ethers.utils.parseUnits("0.0001", "ether");
+const domainPrice = ethers.utils.parseUnits("0", "ether");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -72,16 +72,16 @@ async function main() {
   //await minterContract.transferOwnership(newOwnerAddress);
 
   // CREATE A NEW TLD
-  const tldName = ".sepolia";
-  const tldSymbol = ".SEPOLIA";
+  const tldName = ".meow";
+  const tldSymbol = ".MEOW";
    
   /* 
   const tx = await factoryContract.ownerCreateTld(
     tldName, // TLD name
     tldSymbol, // symbol
     deployer.address, // TLD owner
-    domainPrice, // domain price
-    true // buying enabled
+    0, //domainPrice, // domain price
+    false // buying enabled
   );
 
   tx.wait();
@@ -138,7 +138,7 @@ async function main() {
 
   // GET DOMAIN NAME FROM THE TLD CONTRACT
   /*
-  const tokenId = 657; //954;
+  const tokenId = 1; //954;
   const domainName = await tldContract.domainIdsNames(tokenId);
   console.log(domainName);
   console.log("domainName:", domainName);
@@ -147,7 +147,6 @@ async function main() {
   // GET DOMAIN HOLDER FROM THE TLD CONTRACT
   //const domainHolder = await tldContract.getDomainHolder("cryptofella");
   //console.log("domainHolder:", domainHolder);
-  
 
   console.log("Method calls completed");
 }
