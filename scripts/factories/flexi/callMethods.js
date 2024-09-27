@@ -1,11 +1,11 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network holesky
+// npx hardhat run scripts/factories/flexi/callMethods.js --network superpositionTestnet
 
-const forbiddenAddress = "0xbbA4dB63DA448C124ee38EeC636b697CA9bdf9e1";
-const factoryAddress = "0xa97c7AF10ee564EBf452A9347bB9653454Ba69C0";
+const forbiddenAddress = "";
+const factoryAddress = "0x1D882E64bb7f4D49e67018d81254236A2A6465a3";
 const tldAddress = ""; // .🥁 TLD
-const metadataAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
+const metadataAddress = "";
 
-const domainPrice = ethers.utils.parseUnits("0.0001", "ether");
+const domainPrice = ethers.utils.parseUnits("0", "ether");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -72,8 +72,8 @@ async function main() {
   //await minterContract.transferOwnership(newOwnerAddress);
 
   // CREATE A NEW TLD
-  const tldName = ".holesky";
-  const tldSymbol = ".HOLESKY";
+  const tldName = ".test";
+  const tldSymbol = ".TEST";
    
   /* 
   const tx = await factoryContract.ownerCreateTld(
@@ -81,7 +81,7 @@ async function main() {
     tldSymbol, // symbol
     deployer.address, // TLD owner
     domainPrice, // domain price
-    true // buying enabled
+    false // buying enabled
   );
 
   tx.wait();

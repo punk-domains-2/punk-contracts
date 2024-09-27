@@ -1,5 +1,5 @@
-// Deploy FlexiPunkMetadata contract
-// npx hardhat run scripts/partners/meow/deployMeowReservations.js --network superpositionTestnet
+// Deploy reservations contract
+// npx hardhat run scripts/partners/meow/deployMeowReservations.js --network superposition
 
 const writerAddress = "0xb29050965A5AC70ab487aa47546cdCBc97dAE45D";
 

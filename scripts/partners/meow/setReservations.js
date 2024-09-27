@@ -1,14 +1,14 @@
 // Get reserved names from testnet TLD contract and store them in the reservations contract on mainnet
-// npx hardhat run scripts/partners/meow/setReservations.js --network superpositionTestnet
+// npx hardhat run scripts/partners/meow/setReservations.js --network superposition
 
-const reservationsAddress = "0x884e36636D5F26C55BFCb67e17E9bA809C3F02A8";
+const reservationsAddress = "0x1B03D6ecd88bE3B19aBe7c76a30636689cad9Bf8";
 
 const testnetTldAddress = "0xe0789b1AEA5a53673aDD3822Cb8bFEB5c48D8F71";
 const testnetRpcUrl = "https://testnet-rpc.superposition.so/";
 
-const startTokenId = 100;
-const endTokenId = 300;
-const batchSize = 60;
+const startTokenId = 1;
+const endTokenId = 111937;
+const batchSize = 120;
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -29,8 +29,12 @@ async function main() {
   const names = [];
   const holders = [];
 
+  // log the start time
+  const startTime = new Date();
+  console.log(`Script started at ${startTime.toLocaleString()}`);
+
   for (let tokenId = startTokenId; tokenId <= endTokenId; tokenId++) {
-    sleep(1000);
+    //sleep(100);
     console.log(`Processing tokenId ${tokenId}...`);
 
     let domainName;
@@ -68,6 +72,7 @@ async function main() {
 
           if (resReceipt.status === 1) {
             console.log("Reservations set successfully.");
+            console.log(`Time taken for ${names.length} reservations (1 batch): ${(new Date() - startTime)/1000} seconds`);
           } else {
             console.error("Failed to set reservations.");
             break;
