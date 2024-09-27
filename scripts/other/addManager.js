@@ -3,8 +3,7 @@
 const managerAddress = "0x5FfD23B1B0350debB17A2cB668929aC5f76d0E18";
 
 const contractAddresses = [
-  "0xf6A44f61030115B5dA382b198B711130D98390d9",
-  "0x4bD57a848c56E6241296a1256FB2bDEbCdbb9dB0"
+  "0x7aa8597134eAb3259F4D7d08a09ff69EDf73DdFf",
 ];
 
 async function main() {

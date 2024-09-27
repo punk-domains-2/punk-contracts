@@ -6,7 +6,7 @@ const reservationsAddress = "0x1B03D6ecd88bE3B19aBe7c76a30636689cad9Bf8";
 const testnetTldAddress = "0xe0789b1AEA5a53673aDD3822Cb8bFEB5c48D8F71";
 const testnetRpcUrl = "https://testnet-rpc.superposition.so/";
 
-const startTokenId = 1;
+const startTokenId = 3360;
 const endTokenId = 111937;
 const batchSize = 120;
 

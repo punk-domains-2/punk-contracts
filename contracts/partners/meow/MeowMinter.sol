@@ -74,6 +74,15 @@ contract MeowMinter is OwnableWithManagers, ReentrancyGuard {
   ) external nonReentrant payable returns(uint256 tokenId) {
     require(!paused, "Minting paused");
 
+    // check if domain is reserved
+    if (!pausedReservations) {
+      address reserverAddress = IMeowReservations(reservationsAddress).getResNameAddress(_domainName);
+
+      if (reserverAddress != address(0)) {
+        require(msg.sender == reserverAddress, "This domain is reserved");
+      }
+    }
+
     // find price
     uint256 domainLength = strings.len(strings.toSlice(_domainName));
     uint256 selectedPrice;
