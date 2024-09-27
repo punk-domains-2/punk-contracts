@@ -1,13 +1,13 @@
 // Deploy factory contract only (ForbiddenTlds and FlexiPunkMetadata need to be already deployed)
 // after deployment, factory address will be automatically added to the ForbiddenTlds whitelist and to the Resolver
 // if not, do it manually
-// npx hardhat run scripts/factories/flexi/3_deployFactoryOnly.js --network superposition
+// npx hardhat run scripts/factories/flexi/3_deployFactoryOnly.js --network holesky
 
 async function main() {
   const contractNameFactory = "FlexiPunkTLDFactory";
-  const metaAddress = "0xF51F7a532a2AaDFE8E2320bf5BA8275503bB3789";
-  const forbAddress = "0xeA2f99fE93E5D07F61334C5Eb9c54c5D5C957a6a";
-  const resolverAddress = "0xC6c17896fa051083324f2aD0Ed4555dC46D96E7f"; // IMPORTANT: this script is made for non-upgradable Resolver. If you're using upgradable Resolver, you need to modify this script below (find: PunkResolverNonUpgradable line)
+  const metaAddress = "0x2f5cd4366c16AFC3b04A4b2327BbFf9e3955dbC1";
+  const forbAddress = "0xbbA4dB63DA448C124ee38EeC636b697CA9bdf9e1";
+  const resolverAddress = "0x2919f0bE09549814ADF72fb0387D1981699fc6D4"; // IMPORTANT: this script is made for non-upgradable Resolver. If you're using upgradable Resolver, you need to modify this script below (find: PunkResolverNonUpgradable line)
 
   let tldPrice = "45"; // default price in ETH
 

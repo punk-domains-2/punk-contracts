@@ -114,6 +114,13 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 2000000000, // 1 gwei
     },
+    holesky: { // Holesky testnet
+      url: "https://holesky.drpc.org",
+      chainId: 17000,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      gas: "auto", // gas limit
+      gasPrice: 1000000000, // 1 gwei
+    },
     kroma: { // Kroma mainnet
       url: "https://api.kroma.network/", 
       chainId: 255,
@@ -315,6 +322,7 @@ module.exports = {
       flare: "randomstring",
       flareCoston: "randomstring",
       ftmTestnet: process.env.FTMSCAN_API_KEY,
+      //holesky: process.env.ETHERSCAN_API_KEY,
       kroma: process.env.KROMASCAN_API_KEY,
       linea: process.env.LINEASCAN_API_KEY,
       mainnet: process.env.ETHERSCAN_API_KEY,

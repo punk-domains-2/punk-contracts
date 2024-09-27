@@ -1,5 +1,5 @@
 // Deploy FlexiPunkMetadata contract
-// npx hardhat run scripts/factories/flexi/1_deployMetadata.js --network superposition
+// npx hardhat run scripts/factories/flexi/1_deployMetadata.js --network holesky
 
 async function main() {
   const contractName = "FlexiPunkMetadata";
