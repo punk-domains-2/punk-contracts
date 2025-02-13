@@ -1,11 +1,11 @@
-// npx hardhat run scripts/partners/sgb-flr/deployMinter.js --network flare
+// npx hardhat run scripts/partners/sgb-flr/deployMinter.js --network songbird
 // automatically adds minter address to TLD contract (but check manually)
 
 const contractNameFactory = "MinterFtso";
 
-const distributorAddress = "0xFbaf1D1fBC5a2Fe2e48858a8A4585d5e7C12fc4A";
+const distributorAddress = "0x97203DE4aB5f1064618C727D80f16840DB8F4d59";
 const tldAddress = "0xBDACF94dDCAB51c39c2dD50BffEe60Bb8021949a";
-const nativeCoinTicker = "FLR";
+const nativeCoinTicker = "SGB";
 
 const paymentTokenDecimals = 18;
 
@@ -33,14 +33,14 @@ async function main() {
   
   console.log("Minter address:", instance.address);
 
-  /*
+  /* */
   console.log("Adding minter address to TLD contract");
 
   const tldContract = await ethers.getContractFactory("FlexiPunkTLD");
   const tldInstance = await tldContract.attach(tldAddress);
 
   await tldInstance.changeMinter(instance.address);
-  */
+  
 
   console.log("Wait a minute and then run this command to verify contract on the block explorer:");
   console.log("npx hardhat verify --network " + network.name + " " + instance.address + " " + distributorAddress + " " + tldAddress + ' "' + nativeCoinTicker + '" "' + price1char + '" "' + price2char + '" "' + price3char + '" "' + price4char + '" "' + price5char + '"');

@@ -27,7 +27,7 @@ interface IFtsoRegistry {
   function getCurrentPriceWithDecimals(string memory _symbol) external view returns(uint256 _price, uint256 _timestamp, uint256 _assetPriceUsdDecimals);
 }
 
-/// @title .sgb domain minter contract
+/// @title domain minter contract that uses FTSO to get prices
 contract MinterFtso is OwnableWithManagers, ReentrancyGuard {
   address public distributorAddress;
   address public contractRegistry = 0xaD67FE66660Fb8dFE9d6b1b4240d8650e30F6019;
@@ -146,24 +146,24 @@ contract MinterFtso is OwnableWithManagers, ReentrancyGuard {
 
   // OWNER
 
-  function changeContractRegistry(address _contractRegistry) external onlyOwner {
+  function changeContractRegistry(address _contractRegistry) external onlyManagerOrOwner {
     contractRegistry = _contractRegistry;
   }
 
-  function changeDistributorAddress(address _distributorAddress) external onlyOwner {
+  function changeDistributorAddress(address _distributorAddress) external onlyManagerOrOwner {
     distributorAddress = _distributorAddress;
   }
 
-  function changeFtsoRegistryName(string memory _ftsoRegistryName) external onlyOwner {
+  function changeFtsoRegistryName(string memory _ftsoRegistryName) external onlyManagerOrOwner {
     ftsoRegistryName = _ftsoRegistryName;
   }
 
-  function changeNativeCoinTicker(string memory _nativeCoinTicker) external onlyOwner {
+  function changeNativeCoinTicker(string memory _nativeCoinTicker) external onlyManagerOrOwner {
     nativeCoinTicker = _nativeCoinTicker;
   }
 
   /// @notice This changes price in the minter contract
-  function changePrice(uint256 _priceUsd, uint256 _chars) external onlyOwner {
+  function changePrice(uint256 _priceUsd, uint256 _chars) external onlyManagerOrOwner {
     require(_priceUsd > 0, "Cannot be zero");
 
     if (_chars == 1) {
@@ -180,34 +180,34 @@ contract MinterFtso is OwnableWithManagers, ReentrancyGuard {
   }
 
   /// @notice This changes referral fee in the minter contract
-  function changeReferralFee(uint256 _referralFee) external onlyOwner {
+  function changeReferralFee(uint256 _referralFee) external onlyManagerOrOwner {
     referralFee = _referralFee;
   }
 
   function ownerFreeMint(
     string memory _domainName,
     address _domainHolder
-  ) external nonReentrant onlyOwner returns(uint256 tokenId) {
+  ) external nonReentrant onlyManagerOrOwner returns(uint256 tokenId) {
     // mint a domain
     tokenId = tldContract.mint{value: 0}(_domainName, _domainHolder, address(0));
   }
 
   /// @notice Recover any ERC-20 token mistakenly sent to this contract address
-  function recoverERC20(address tokenAddress_, uint256 tokenAmount_, address recipient_) external onlyOwner {
+  function recoverERC20(address tokenAddress_, uint256 tokenAmount_, address recipient_) external onlyManagerOrOwner {
     IERC20(tokenAddress_).transfer(recipient_, tokenAmount_);
   }
 
   /// @notice Recover any ERC-721 token mistakenly sent to this contract address
-  function recoverERC721(address tokenAddress_, uint256 tokenId_, address recipient_) external onlyOwner {
+  function recoverERC721(address tokenAddress_, uint256 tokenId_, address recipient_) external onlyManagerOrOwner {
     IERC721(tokenAddress_).transferFrom(address(this), recipient_, tokenId_);
   }
 
-  function togglePaused() external onlyOwner {
+  function togglePaused() external onlyManagerOrOwner {
     paused = !paused;
   }
 
   // withdraw ETH from contract
-  function withdraw() external onlyOwner {
+  function withdraw() external onlyManagerOrOwner {
     (bool success, ) = distributorAddress.call{value: address(this).balance}("");
     require(success, "Failed to withdraw ETH from contract");
   }
