@@ -1,4 +1,4 @@
-// npx hardhat run scripts/partners/sgb-flr/deployMinter.js --network songbird
+// npx hardhat run scripts/partners/sgb-flr/deployMinterFtso.js --network songbird
 // automatically adds minter address to TLD contract (but check manually)
 
 const contractNameFactory = "MinterFtso";
