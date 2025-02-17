@@ -1,8 +1,8 @@
-// npx hardhat run scripts/partners/sgb-flr/deployUsedTxsRegistry.js --network songbird
-// automatically adds UsedTxsRegistry address to MinterFdcSongbird contract
+// npx hardhat run scripts/partners/sgb-flr/deployUsedTxsRegistry.js --network flare
+// automatically adds UsedTxsRegistry address to MinterFdcSongbird/MinterFdcFlare contract
 
 const contractNameFactory = "UsedTxsRegistry";
-const minterFdcAddress = "0x5962786492C2c199781c1fB54457bDeE331e44f6";
+const minterFdcAddress = "0xC61D9DEe0796C0e75d18E14E53EDBaEB1C27d745";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
