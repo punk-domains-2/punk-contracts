@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.4;
 
-import { IEVMTransactionVerification } from "@flarenetwork/flare-periphery-contracts/songbird/IEVMTransactionVerification.sol";
-import { IEVMTransaction } from "@flarenetwork/flare-periphery-contracts/songbird/IEVMTransaction.sol";
+import { IEVMTransactionVerification } from "./interfaces/IEVMTransactionVerification.sol";
+import { IEVMTransaction } from "./interfaces/IEVMTransaction.sol";
 import { OwnableWithManagers } from "../../access/OwnableWithManagers.sol";
 
 interface IContractRegistry {
