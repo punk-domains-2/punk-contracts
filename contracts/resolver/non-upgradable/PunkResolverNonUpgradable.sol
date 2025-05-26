@@ -59,11 +59,7 @@ contract PunkResolverNonUpgradable is Ownable {
           strings.len(strings.toSlice(defaultName)) > 0 && 
           !isTldDeprecated[tldAddr]
         ) {
-          if (j == (tldNames.length-1)) { // last TLD (do not include space at the end)
-            result = abi.encodePacked(result, defaultName, tldName);
-          } else {
-            result = abi.encodePacked(result, defaultName, tldName, " ");
-          }
+          result = abi.encodePacked(result, defaultName, tldName, " ");
         }
       }
 

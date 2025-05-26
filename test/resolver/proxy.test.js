@@ -337,7 +337,7 @@ describe("Punk Resolver Proxy", function () {
     const defaultDomainViaResolverAfter = await contract.getDefaultDomains(user1.address);
     console.log(defaultDomainViaResolverAfter);
 
-    expect(defaultDomainViaResolverAfter).to.equal(domainName + tldName1 + " " + domainName + tldName3);
+    expect(defaultDomainViaResolverAfter).to.equal(domainName + tldName1 + " " + domainName + tldName3 + " ");
 
     // check non-existing default domain via Resolver
     const defaultDomainViaResolverNonExisting = await contract.getDefaultDomains(user2.address);
@@ -350,7 +350,7 @@ describe("Punk Resolver Proxy", function () {
     const defaultDomainViaResolverAfter2 = await contract.getDefaultDomains(user1.address);
     console.log(defaultDomainViaResolverAfter2);
 
-    expect(defaultDomainViaResolverAfter2).to.equal(domainName + tldName3);
+    expect(defaultDomainViaResolverAfter2).to.equal(domainName + tldName3 + " ");
   });
 
   it('fetches a single users default domain name, the first that comes', async function () {
@@ -406,7 +406,7 @@ describe("Punk Resolver Proxy", function () {
 
     // should return a different domain name because the first TLD is deprecated
     const defaultDomainViaResolverAfter2 = await contract.getDefaultDomains(user1.address);
-    expect(defaultDomainViaResolverAfter2).to.equal(domainName + tldName3);
+    expect(defaultDomainViaResolverAfter2).to.equal(domainName + tldName3 + " ");
   });
 
   it('un/sets a TLD as deprecated (only owner)', async function () {
