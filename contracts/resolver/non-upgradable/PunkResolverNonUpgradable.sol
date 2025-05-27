@@ -19,10 +19,10 @@ contract PunkResolverNonUpgradable is Ownable {
   mapping (address => bool) public isTldDeprecated; // deprecate an address, not TLD name
   mapping (address => string[2]) public customDefaultDomain; // mapping(0x12... => ["tempe", "op"]) user can set the desired default domain in the Resolver contract
 
-  event FactoryAddressAdded(address user, address fAddr);
-  event DeprecatedTldAdded(address user, address tAddr);
-  event DeprecatedTldRemoved(address user, address tAddr);
-  event CustomDefaultDomainSet(address user, string dName, string dTld);
+  event FactoryAddressAdded(address indexed user, address indexed fAddr);
+  event DeprecatedTldAdded(address indexed user, address indexed tAddr);
+  event DeprecatedTldRemoved(address indexed user, address indexed tAddr);
+  event CustomDefaultDomainSet(address indexed user, string dName, string dTld);
 
   // READ
 
