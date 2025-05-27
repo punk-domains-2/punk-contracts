@@ -88,6 +88,7 @@ contract SoulboundPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard, IER
 
   function tokenURI(uint256 _tokenId) public view override returns (string memory) {
     return IFlexiPunkMetadata(metadataAddress).getMetadata(
+      address(this),
       domains[domainIdsNames[_tokenId]].name, 
       name(), 
       _tokenId

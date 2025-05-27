@@ -65,6 +65,7 @@ contract PunkAngelMetadata is Ownable {
   }
 
   function getMetadata(
+    address _tldAddress, 
     string calldata _domainName, 
     string calldata _tld, 
     uint256 _tokenId

@@ -18,7 +18,7 @@ contract ScrollyMetadata is OwnableWithManagers {
   event BrandChanged(address indexed user, string brand);
 
   // READ
-  function getMetadata(string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
+  function getMetadata(address _tldAddress, string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
     string memory fullDomainName = string(abi.encodePacked(_domainName, _tld));
     uint256 domainLength = strings.len(strings.toSlice(_domainName));
 

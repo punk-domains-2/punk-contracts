@@ -16,14 +16,14 @@ contract FlexiPunkMetadata {
   event DescriptionChanged(address indexed user, string description);
 
   // READ
-  function getMetadata(string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
+  function getMetadata(address _tldAddress, string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
     string memory fullDomainName = string(abi.encodePacked(_domainName, _tld));
 
     return string(
       abi.encodePacked("data:application/json;base64,", Base64.encode(bytes(abi.encodePacked(
         '{"name": "', fullDomainName, '", ',
-        '"description": "', descriptions[msg.sender], '", ',
-        '"image": "', _getImage(fullDomainName, brands[msg.sender]), '"}'))))
+        '"description": "', descriptions[_tldAddress], '", ',
+        '"image": "', _getImage(fullDomainName, brands[_tldAddress]), '"}'))))
     );
   }
 

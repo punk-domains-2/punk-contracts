@@ -9,7 +9,7 @@ contract BasinMetadata is OwnableWithManagers {
   string public apiEndpoint = "https://api.basin.global/metadata/"; // important: must end with a slash
 
   // READ
-  function getMetadata(string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
+  function getMetadata(address _tldAddress, string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
     return string(abi.encodePacked(apiEndpoint,Strings.toString(_tokenId),"/",_domainName));
   }
 

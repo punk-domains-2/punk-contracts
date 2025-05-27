@@ -78,6 +78,7 @@ contract FlexiPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard {
 
   function tokenURI(uint256 _tokenId) public view override returns (string memory) {
     return IFlexiPunkMetadata(metadataAddress).getMetadata(
+      address(this),
       domains[domainIdsNames[_tokenId]].name, 
       name(), 
       _tokenId

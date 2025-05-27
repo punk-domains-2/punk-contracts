@@ -13,7 +13,7 @@ contract BasinMetadata2 is OwnableWithManagers {
   string public bgImage = "https://cloudflare-ipfs.com/ipfs/bafybeiea4smmcoij2c5e25qf4qsgbrqx32mxpf4sn5msvq4ifvapj5su7a/83m58h7118kea9xnyeqsi.gif";
 
   // READ
-  function getMetadata(string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
+  function getMetadata(address _tldAddress, string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
     string memory fullDomainName = string(abi.encodePacked(_domainName, _tld));
     uint256 domainLength = strings.len(strings.toSlice(_domainName));
 

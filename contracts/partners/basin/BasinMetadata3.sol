@@ -12,7 +12,7 @@ contract BasinMetadata3 is OwnableWithManagers {
     string public description = ".basin's are perpetual trusts that ENSURE the protection, restoration, and stewardship of PLACE, on PURPOSE, by PEOPLE";
 
     // READ
-    function getMetadata(string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
+    function getMetadata(address _tldAddress, string calldata _domainName, string calldata _tld, uint256 _tokenId) public view returns(string memory) {
         string memory fullDomainName = string(abi.encodePacked(_domainName, _tld));
         uint256 domainLength = strings.len(strings.toSlice(_domainName));
         string memory animationUrl = getAnimationUrl(_tokenId);

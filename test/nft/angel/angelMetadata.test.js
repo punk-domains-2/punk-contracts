@@ -23,7 +23,9 @@ describe("Punk Angel Metadata", function () {
     const domainName = "techie";
     const tld = ".punkangel";
 
-    const metadata = await metadataContract.getMetadata(domainName, tld, tokenId);
+    const metadata = await metadataContract.getMetadata(
+      signer.address, // just a placeholder for TLD address
+      domainName, tld, tokenId);
 
     //console.log(metadata)
     
