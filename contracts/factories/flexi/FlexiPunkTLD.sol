@@ -279,9 +279,9 @@ contract FlexiPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard {
   
   // ROYALTY FEE UPDATER
 
-  /// @notice This changes royalty fee in the wrapper contract
+  /// @notice This changes royalty fee in the wrapper contract. Use basis points (bips) for the value.
   function changeRoyalty(uint256 _royalty) external {
-    if (_royalty > 5000) revert RoyaltyTooHigh();
+    if (_royalty > 5000) revert RoyaltyTooHigh(); // cannot exceed 50% (5000 basis points or bips)
     if (_msgSender() != royaltyFeeUpdater) revert NotRoyaltyFeeUpdater();
     royalty = _royalty;
     emit TldRoyaltyChanged(_msgSender(), _royalty);

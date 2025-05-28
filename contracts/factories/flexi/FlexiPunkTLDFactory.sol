@@ -24,6 +24,7 @@ contract FlexiPunkTLDFactory is IBasePunkTLDFactory, Ownable, ReentrancyGuard {
   error BuyingDisabled();
   error ValueBelowPrice();
   error PaymentFailed();
+  error RoyaltyTooHigh();
 
   string[] public tlds; // existing TLDs
   mapping (string => address) public override tldNamesAddresses; // a mapping of TLDs (string => TLDaddress)
@@ -150,8 +151,9 @@ contract FlexiPunkTLDFactory is IBasePunkTLDFactory, Ownable, ReentrancyGuard {
     emit ChangeTldPrice(_msgSender(), _price);
   }
   
-  /// @notice Factory contract owner can change royalty fee for future contracts.
+  /// @notice Factory contract owner can change royalty fee for future contracts. Use basis points (bips) for the value.
   function changeRoyalty(uint256 _royalty) external onlyOwner {
+    if (_royalty > 5000) revert RoyaltyTooHigh(); // cannot exceed 50% (5000 basis points or bips)
     royalty = _royalty;
   }
 
