@@ -34,8 +34,12 @@ contract RenewablePunkTLDFactory is Ownable, ReentrancyGuard {
   bool public buyingEnabled = false; // buying TLDs enabled (true/false)
   uint256 public nameMaxLength = 40; // the maximum length of a TLD name
 
-  event TldCreated(address indexed user, address indexed owner, string tldName, address tldAddress);
+  event TldCreated(address indexed user, address indexed owner, string tldName, address indexed tldAddress);
   event ChangeTldPrice(address indexed user, uint256 tldPrice);
+  event ChangeForbiddenTldsAddress(address indexed user, address indexed forbiddenTlds);
+  event ChangeMetadataAddress(address indexed user, address indexed metadataAddress);
+  event ChangeNameMaxLength(address indexed user, uint256 maxLength);
+  event ToggleBuyingTlds(address indexed user, bool buyingEnabled);
 
   constructor(
     uint256 _price, 
@@ -126,16 +130,19 @@ contract RenewablePunkTLDFactory is Ownable, ReentrancyGuard {
   /// @notice Factory contract owner can change the ForbiddenTlds contract address.
   function changeForbiddenTldsAddress(address _forbiddenTlds) external onlyOwner {
     forbiddenTlds = _forbiddenTlds;
+    emit ChangeForbiddenTldsAddress(_msgSender(), _forbiddenTlds);
   }
 
   /// @notice Factory contract owner can change the metadata contract address.
   function changeMetadataAddress(address _mAddr) external onlyOwner {
     metadataAddress = _mAddr;
+    emit ChangeMetadataAddress(_msgSender(), _mAddr);
   }
 
   /// @notice Factory contract owner can change TLD max name length.
   function changeNameMaxLength(uint256 _maxLength) external onlyOwner {
     nameMaxLength = _maxLength;
+    emit ChangeNameMaxLength(_msgSender(), _maxLength);
   }
 
   /// @notice Factory contract owner can change price for minting new TLDs.
@@ -166,6 +173,7 @@ contract RenewablePunkTLDFactory is Ownable, ReentrancyGuard {
   /// @notice Factory contract owner can enable or disable public minting of new TLDs.
   function toggleBuyingTlds() external onlyOwner {
     buyingEnabled = !buyingEnabled;
+    emit ToggleBuyingTlds(_msgSender(), buyingEnabled);
   }
 
 }

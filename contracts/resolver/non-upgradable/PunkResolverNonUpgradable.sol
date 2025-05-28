@@ -26,6 +26,7 @@ contract PunkResolverNonUpgradable is Ownable {
   event DeprecatedTldAdded(address indexed user, address indexed tAddr);
   event DeprecatedTldRemoved(address indexed user, address indexed tAddr);
   event CustomDefaultDomainSet(address indexed user, string dName, string dTld);
+  event FactoryAddressRemoved(address indexed user, uint256 indexed addrIndex);
 
   // READ
 
@@ -252,6 +253,7 @@ contract PunkResolverNonUpgradable is Ownable {
   function removeFactoryAddress(uint _addrIndex) external onlyOwner {
     factories[_addrIndex] = factories[factories.length - 1];
     factories.pop();
+    emit FactoryAddressRemoved(_msgSender(), _addrIndex);
   }
 
   function removeDeprecatedTldAddress(address _deprecatedTldAddress) external onlyOwner {

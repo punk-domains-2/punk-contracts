@@ -25,11 +25,12 @@ contract PunkResolverV2 is OwnableUpgradeable {
   event DeprecatedTldAdded(address user, address tAddr);
   event DeprecatedTldRemoved(address user, address tAddr);
   event CustomDefaultDomainSet(address user, string dName, string dTld);
+  event FactoryAddressRemoved(address user, uint256 index, address fAddr);
 
   // READ
 
   // reverse resolver: get user's default name for a given TLD
-  function getDefaultDomain(address _addr, string memory _tld) public view returns(string memory) {
+  function getDefaultDomain(address _addr, string memory _tld) external view returns(string memory) {
     uint256 fLength = factories.length;
     for (uint256 i = 0; i < fLength;) {
       address tldAddr = IBasePunkTLDFactory(factories[i]).tldNamesAddresses(_tld);
@@ -45,7 +46,7 @@ contract PunkResolverV2 is OwnableUpgradeable {
   }
 
   // reverse resolver: get user's default names (all TLDs)
-  function getDefaultDomains(address _addr) public view returns(string memory) {
+  function getDefaultDomains(address _addr) external view returns(string memory) {
     bytes memory result;
 
     uint256 fLength = factories.length;
@@ -88,7 +89,7 @@ contract PunkResolverV2 is OwnableUpgradeable {
   }
   
   /// @notice fetch domain data for a given domain
-  function getDomainData(string memory _domainName, string memory _tld) public view returns(string memory) {
+  function getDomainData(string memory _domainName, string memory _tld) external view returns(string memory) {
     uint256 fLength = factories.length;
     for (uint256 i = 0; i < fLength;) {
       address tldAddr = IBasePunkTLDFactory(factories[i]).tldNamesAddresses(_tld);
@@ -104,7 +105,7 @@ contract PunkResolverV2 is OwnableUpgradeable {
   }
 
   /// @notice fetch domain metadata for a given domain (tokenURI)
-  function getDomainTokenUri(string memory _domainName, string memory _tld) public view returns(string memory) {
+  function getDomainTokenUri(string memory _domainName, string memory _tld) external view returns(string memory) {
     uint256 fLength = factories.length;
     for (uint256 i = 0; i < fLength;) {
       address tldAddr = IBasePunkTLDFactory(factories[i]).tldNamesAddresses(_tld);
@@ -120,12 +121,12 @@ contract PunkResolverV2 is OwnableUpgradeable {
     return "";
   }
 
-  function getFactoriesArray() public view returns(address[] memory) {
+  function getFactoriesArray() external view returns(address[] memory) {
     return factories;
   }
 
   /// @notice reverse resolver: get single user's default name, the first that comes (all TLDs)
-  function getFirstDefaultDomain(address _addr) public view returns(string memory) {
+  function getFirstDefaultDomain(address _addr) external view returns(string memory) {
     // check if user has set a custom default domain in this contract
     string[2] memory domainParts = customDefaultDomain[_addr];
 
@@ -160,7 +161,7 @@ contract PunkResolverV2 is OwnableUpgradeable {
   }
 
   /// @notice get the address of a given TLD name
-  function getTldAddress(string memory _tldName) public view returns(address) {
+  function getTldAddress(string memory _tldName) external view returns(address) {
     uint256 fLength = factories.length;
     for (uint256 i = 0; i < fLength;) {
       address tldAddr = IBasePunkTLDFactory(factories[i]).tldNamesAddresses(_tldName);
@@ -178,7 +179,7 @@ contract PunkResolverV2 is OwnableUpgradeable {
   }
 
   /// @notice get the address of the factory contract through which a given TLD was created
-  function getTldFactoryAddress(string memory _tldName) public view returns(address) {
+  function getTldFactoryAddress(string memory _tldName) external view returns(address) {
     uint256 fLength = factories.length;
     for (uint256 i = 0; i < fLength;) {
       address tldAddr = IBasePunkTLDFactory(factories[i]).tldNamesAddresses(_tldName);
@@ -196,7 +197,7 @@ contract PunkResolverV2 is OwnableUpgradeable {
   }
 
   /// @notice get a stringified CSV of all active TLDs (name,address) across all factories
-  function getTlds() public view returns(string memory) {
+  function getTlds() external view returns(string memory) {
     bytes memory result;
 
     uint256 fLength = factories.length;
@@ -234,8 +235,10 @@ contract PunkResolverV2 is OwnableUpgradeable {
   }
 
   function removeFactoryAddress(uint _addrIndex) external onlyOwner {
+    address removedFactory = factories[_addrIndex];
     factories[_addrIndex] = factories[factories.length - 1];
     factories.pop();
+    emit FactoryAddressRemoved(_msgSender(), _addrIndex, removedFactory);
   }
 
   function removeDeprecatedTldAddress(address _deprecatedTldAddress) external onlyOwner {

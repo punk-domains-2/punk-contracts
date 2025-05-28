@@ -62,9 +62,14 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
   event DomainBurned(address indexed user, string fullDomainName);
   event DomainBuyingToggle(address indexed user, bool domainBuyingToggle);
   event DomainCreated(address indexed user, address indexed owner, string fullDomainName);
-  event MetadataFreeze(address user);
-  event MinterFreeze(address user);
-  event RenewerFreeze(address user);
+  event MetadataFreeze(address indexed user);
+  event MinterFreeze(address indexed user);
+  event RenewerFreeze(address indexed user);
+  event MinterAddressChanged(address indexed previousMinter, address indexed newMinter);
+  event NameMaxLengthChanged(uint256 indexed previousLength, uint256 indexed newLength);
+  event RenewerAddressChanged(address indexed previousRenewer, address indexed newRenewer);
+  event MetadataAddressChanged(address indexed previousMetadata, address indexed newMetadata);
+  event DomainRenewed(address indexed user, string domainName, uint256 indexed newExpiry);
 
   constructor(
     string memory _name,
@@ -259,6 +264,8 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
 
     domains[dName].expiry += _addExpirySeconds; // add expiry seconds
 
+    emit DomainRenewed(_msgSender(), dName, domains[dName].expiry);
+
     return domains[dName].expiry; // return new expiry date
   }
 
@@ -267,24 +274,32 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
   /// @notice Only TLD contract owner can call this function. Flexi&Renewable-specific function.
   function changeMetadataAddress(address _metadataAddress) external onlyOwner {
     if (metadataFrozen) revert MetadataFrozen();
+    address previousMetadata = metadataAddress;
     metadataAddress = _metadataAddress;
+    emit MetadataAddressChanged(previousMetadata, _metadataAddress);
   }
 
   /// @notice Only TLD contract owner can call this function. Flexi&Renewable-specific function.
   function changeMinterAddress(address _minter) external onlyOwner {
     if (minterFrozen) revert MinterFrozen();
+    address previousMinter = minterAddress;
     minterAddress = _minter;
+    emit MinterAddressChanged(previousMinter, _minter);
   }
 
   /// @notice Only TLD contract owner can call this function.
   function changeNameMaxLength(uint256 _maxLength) external onlyOwner {
+    uint256 previousLength = nameMaxLength;
     nameMaxLength = _maxLength;
+    emit NameMaxLengthChanged(previousLength, _maxLength);
   }
 
   /// @notice Only TLD contract owner can call this function. Renewable-specific function.
   function changeRenewerAddress(address _renewer) external onlyOwner {
     if (renewerFrozen) revert RenewerFrozen();
+    address previousRenewer = renewerAddress;
     renewerAddress = _renewer;
+    emit RenewerAddressChanged(previousRenewer, _renewer);
   }
 
   /// @notice Freeze metadata address. Only TLD contract owner can call this function.

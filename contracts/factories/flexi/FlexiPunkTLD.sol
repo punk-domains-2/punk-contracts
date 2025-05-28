@@ -58,8 +58,6 @@ contract FlexiPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard {
   mapping (uint256 => string) public domainIdsNames; // mapping (tokenId => domain name)
   mapping (address => string) public override defaultNames; // user's default domain
 
-  event MintingDisabledForever(address user);
-
   constructor(
     string memory _name,
     string memory _symbol,
@@ -234,17 +232,23 @@ contract FlexiPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard {
   /// @notice Only TLD contract owner can call this function. Flexi-specific function.
   function changeMetadataAddress(address _metadataAddress) external onlyOwner {
     if (metadataFrozen) revert MetadataFrozen();
+    address previousAddress = metadataAddress;
     metadataAddress = _metadataAddress;
+    emit MetadataAddressChanged(previousAddress, _metadataAddress);
   }
 
   /// @notice Only TLD contract owner can call this function. Flexi-specific function.
   function changeMinter(address _minter) external onlyOwner {
+    address previousMinter = minter;
     minter = _minter;
+    emit MinterAddressChanged(previousMinter, _minter);
   }
 
   /// @notice Only TLD contract owner can call this function.
   function changeNameMaxLength(uint256 _maxLength) external override onlyOwner {
+    uint256 previousLength = nameMaxLength;
     nameMaxLength = _maxLength;
+    emit NameMaxLengthChanged(_msgSender(), previousLength, _maxLength);
   }
 
   /// @notice Only TLD contract owner can call this function.
@@ -269,6 +273,7 @@ contract FlexiPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard {
   /// @notice Freeze metadata address. Only TLD contract owner can call this function.
   function freezeMetadata() external onlyOwner {
     metadataFrozen = true; // this action is irreversible
+    emit MetadataFreeze(_msgSender());
   }
 
   /// @notice Only TLD contract owner can call this function.
@@ -290,12 +295,16 @@ contract FlexiPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard {
   /// @notice This changes royalty fee receiver address. Flexi-specific function.
   function changeRoyaltyFeeReceiver(address _newReceiver) external {
     if (_msgSender() != royaltyFeeReceiver) revert NotRoyaltyFeeReceiver();
+    address previousReceiver = royaltyFeeReceiver;
     royaltyFeeReceiver = _newReceiver;
+    emit RoyaltyFeeReceiverChanged(previousReceiver, _newReceiver);
   }
 
   /// @notice This changes royalty fee updater address. Flexi-specific function.
   function changeRoyaltyFeeUpdater(address _newUpdater) external {
     if (_msgSender() != royaltyFeeUpdater) revert NotRoyaltyFeeUpdater();
+    address previousUpdater = royaltyFeeUpdater;
     royaltyFeeUpdater = _newUpdater;
+    emit RoyaltyFeeUpdaterChanged(previousUpdater, _newUpdater);
   }
 }

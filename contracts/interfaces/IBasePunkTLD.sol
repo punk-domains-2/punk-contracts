@@ -20,6 +20,13 @@ interface IBasePunkTLD is IERC721 {
   event ReferralFeeChanged(address indexed user, uint256 referralFee);
   event TldRoyaltyChanged(address indexed user, uint256 tldRoyalty);
   event DomainBuyingToggle(address indexed user, bool domainBuyingToggle);
+  event MintingDisabledForever(address user);
+  event RoyaltyFeeReceiverChanged(address indexed previousReceiver, address indexed newReceiver);
+  event RoyaltyFeeUpdaterChanged(address indexed previousUpdater, address indexed newUpdater);
+  event MetadataAddressChanged(address indexed previousAddress, address indexed newAddress);
+  event NameMaxLengthChanged(address indexed user, uint256 previousLength, uint256 newLength);
+  event MinterAddressChanged(address indexed previousMinter, address indexed newMinter);
+  event MetadataFreeze(address indexed user);
 
   function domains(string calldata _domainName) external view returns(string memory, uint256, address, string memory);
 
