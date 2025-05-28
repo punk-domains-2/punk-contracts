@@ -14,6 +14,19 @@ interface IRenewablePunkTLD {
 
 // example minter contract for renewable punk domains
 contract RenewablePunkMinter is Ownable, ReentrancyGuard {
+  // Custom Errors
+  error MintingPaused();
+  error ValueBelowPrice();
+  error FailedToSendReferralFee();
+  error FailedToSendRoyaltyFee();
+  error FailedToSendDomainPayment();
+  error PriceCannotBeZero();
+  error ReferralFeeTooHigh();
+  error RegistrationLengthTooShort();
+  error RoyaltyFeeTooHigh();
+  error OnlyTLDOwner();
+  error FailedToWithdrawETH();
+
   bool public paused = true;
 
   address public royaltyFeeReceiver;
@@ -61,7 +74,7 @@ contract RenewablePunkMinter is Ownable, ReentrancyGuard {
     address _domainHolder,
     address _referrer
   ) external nonReentrant payable returns(uint256 tokenId) {
-    require(!paused, "Minting paused");
+    if (paused) revert MintingPaused();
 
     // find price
     uint256 domainLength = strings.len(strings.toSlice(_domainName));
@@ -79,13 +92,13 @@ contract RenewablePunkMinter is Ownable, ReentrancyGuard {
       selectedPrice = price5char;
     }
 
-    require(msg.value >= selectedPrice, "Value below price");
+    if (msg.value < selectedPrice) revert ValueBelowPrice();
 
     // send referral fee
     if (referralFee > 0 && _referrer != address(0)) {
       uint256 referralPayment = (selectedPrice * referralFee) / MAX_BPS;
       (bool sentReferralFee, ) = payable(_referrer).call{value: referralPayment}("");
-      require(sentReferralFee, "Failed to send referral fee");
+      if (!sentReferralFee) revert FailedToSendReferralFee();
 
       selectedPrice -= referralPayment;
     }
@@ -94,12 +107,12 @@ contract RenewablePunkMinter is Ownable, ReentrancyGuard {
     if (royaltyFee > 0 && royaltyFeeReceiver != address(0)) {
       uint256 royaltyPayment = (selectedPrice * royaltyFee) / MAX_BPS;
       (bool sentRoyaltyFee, ) = payable(royaltyFeeReceiver).call{value: royaltyPayment}("");
-      require(sentRoyaltyFee, "Failed to send royalty fee");
+      if (!sentRoyaltyFee) revert FailedToSendRoyaltyFee();
     }
 
     // send the rest to TLD owner
     (bool sent, ) = payable(tldContract.owner()).call{value: address(this).balance}("");
-    require(sent, "Failed to send domain payment to TLD owner");
+    if (!sent) revert FailedToSendDomainPayment();
 
     // mint a domain
     tokenId = tldContract.mint(
@@ -113,7 +126,7 @@ contract RenewablePunkMinter is Ownable, ReentrancyGuard {
 
   /// @notice This changes price in the minter contract
   function changePrice(uint256 _price, uint256 _chars) external onlyOwner {
-    require(_price > 0, "Cannot be zero");
+    if (_price == 0) revert PriceCannotBeZero();
 
     if (_chars == 1) {
       price1char = _price;
@@ -130,19 +143,19 @@ contract RenewablePunkMinter is Ownable, ReentrancyGuard {
 
   /// @notice This changes referral fee
   function changeReferralFee(uint256 _referral) external onlyOwner {
-    require(_referral <= 1000, "Cannot exceed 10%");
+    if (_referral > 1000) revert ReferralFeeTooHigh();
     referralFee = _referral;
   }
 
   /// @notice This changes registration length (in seconds)
   function changeRegistrationLength(uint256 _regLength) external onlyOwner {
-    require(_regLength > 604800, "Cannot be shorter than a week");
+    if (_regLength <= 604800) revert RegistrationLengthTooShort();
     registrationLength = _regLength;
   }
 
   /// @notice This changes royalty fee
   function changeRoyaltyFee(uint256 _royalty) external onlyOwner {
-    require(_royalty <= 9000, "Cannot exceed 90%");
+    if (_royalty > 9000) revert RoyaltyFeeTooHigh();
     royaltyFee = _royalty;
   }
 
@@ -172,21 +185,21 @@ contract RenewablePunkMinter is Ownable, ReentrancyGuard {
 
   /// @notice Recover any ERC-20 token mistakenly sent to this contract address
   function recoverERC20(address tokenAddress_, uint256 tokenAmount_, address recipient_) external {
-    require(_msgSender() == tldContract.owner(), "Only TLD owner can do recovery.");
+    if (_msgSender() != tldContract.owner()) revert OnlyTLDOwner();
     IERC20(tokenAddress_).transfer(recipient_, tokenAmount_);
   }
 
   /// @notice Recover any ERC-721 token mistakenly sent to this contract address
   function recoverERC721(address tokenAddress_, uint256 tokenId_, address recipient_) external {
-    require(_msgSender() == tldContract.owner(), "Only TLD owner can do recovery.");
+    if (_msgSender() != tldContract.owner()) revert OnlyTLDOwner();
     IERC721(tokenAddress_).transferFrom(address(this), recipient_, tokenId_);
   }
 
   /// @notice Recover any ETH mistakenly sent to this contract address
   function withdraw() external {
-    require(_msgSender() == tldContract.owner(), "Only TLD owner can do recovery.");
+    if (_msgSender() != tldContract.owner()) revert OnlyTLDOwner();
     (bool success, ) = payable(tldContract.owner()).call{value: address(this).balance}("");
-    require(success, "Failed to withdraw ETH from contract");
+    if (!success) revert FailedToWithdrawETH();
   }
 
   // RECEIVE & FALLBACK

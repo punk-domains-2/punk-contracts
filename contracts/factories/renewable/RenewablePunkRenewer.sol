@@ -14,6 +14,16 @@ interface IRenewablePunkTLD {
 
 // example Renewer contract for renewable punk domains
 contract RenewablePunkRenewer is Ownable, ReentrancyGuard {
+  // Custom Errors
+  error ValueBelowPrice();
+  error FailedToSendRoyaltyFee();
+  error FailedToSendDomainPayment();
+  error PriceCannotBeZero();
+  error RenewLengthTooShort();
+  error RoyaltyFeeTooHigh();
+  error OnlyTLDOwner();
+  error FailedToWithdrawETH();
+
   address public royaltyFeeReceiver;
 
   uint256 renewLength = 60 * 60 * 24 * 365; // length in seconds (default: 1 year)
@@ -70,18 +80,18 @@ contract RenewablePunkRenewer is Ownable, ReentrancyGuard {
       selectedPrice = price5char;
     }
 
-    require(msg.value >= selectedPrice, "Value below price");
+    if (msg.value < selectedPrice) revert ValueBelowPrice();
 
     // send royalty fee
     if (royaltyFee > 0 && royaltyFeeReceiver != address(0)) {
       uint256 royaltyPayment = (selectedPrice * royaltyFee) / MAX_BPS;
       (bool sentRoyaltyFee, ) = payable(royaltyFeeReceiver).call{value: royaltyPayment}("");
-      require(sentRoyaltyFee, "Failed to send royalty fee");
+      if (!sentRoyaltyFee) revert FailedToSendRoyaltyFee();
     }
 
     // send the rest to TLD owner
     (bool sent, ) = payable(tldContract.owner()).call{value: address(this).balance}("");
-    require(sent, "Failed to send domain payment to TLD owner");
+    if (!sent) revert FailedToSendDomainPayment();
 
     // renew a domain (returns the new expiry date)
     return tldContract.renew(_domainName, renewLength);
@@ -91,7 +101,7 @@ contract RenewablePunkRenewer is Ownable, ReentrancyGuard {
 
   /// @notice This changes price for renewals
   function changePrice(uint256 _price, uint256 _chars) external onlyOwner {
-    require(_price > 0, "Cannot be zero");
+    if (_price == 0) revert PriceCannotBeZero();
 
     if (_chars == 1) {
       price1char = _price;
@@ -108,13 +118,13 @@ contract RenewablePunkRenewer is Ownable, ReentrancyGuard {
 
   /// @notice This changes registration length (in seconds)
   function changeRenewLength(uint256 _renewLength) external onlyOwner {
-    require(_renewLength > 604800, "Cannot be shorter than a week");
+    if (_renewLength <= 604800) revert RenewLengthTooShort(); // cannot be shorter than a week
     renewLength = _renewLength;
   }
 
   /// @notice This changes royalty fee
   function changeRoyaltyFee(uint256 _royalty) external onlyOwner {
-    require(_royalty <= 9000, "Cannot exceed 90%");
+    if (_royalty > 9000) revert RoyaltyFeeTooHigh(); // cannot exceed 90%
     royaltyFee = _royalty;
   }
 
@@ -132,25 +142,24 @@ contract RenewablePunkRenewer is Ownable, ReentrancyGuard {
 
   /// @notice Recover any ERC-20 token mistakenly sent to this contract address
   function recoverERC20(address tokenAddress_, uint256 tokenAmount_, address recipient_) external {
-    require(_msgSender() == tldContract.owner(), "Only TLD owner can do recovery.");
+    if (_msgSender() != tldContract.owner()) revert OnlyTLDOwner();
     IERC20(tokenAddress_).transfer(recipient_, tokenAmount_);
   }
 
   /// @notice Recover any ERC-721 token mistakenly sent to this contract address
   function recoverERC721(address tokenAddress_, uint256 tokenId_, address recipient_) external {
-    require(_msgSender() == tldContract.owner(), "Only TLD owner can do recovery.");
+    if (_msgSender() != tldContract.owner()) revert OnlyTLDOwner();
     IERC721(tokenAddress_).transferFrom(address(this), recipient_, tokenId_);
   }
 
   /// @notice Recover any ETH mistakenly sent to this contract address
   function withdraw() external {
-    require(_msgSender() == tldContract.owner(), "Only TLD owner can do recovery.");
+    if (_msgSender() != tldContract.owner()) revert OnlyTLDOwner();
     (bool success, ) = payable(tldContract.owner()).call{value: address(this).balance}("");
-    require(success, "Failed to withdraw ETH from contract");
+    if (!success) revert FailedToWithdrawETH();
   }
 
   // RECEIVE & FALLBACK
   receive() external payable {}
   fallback() external payable {}
- 
 }

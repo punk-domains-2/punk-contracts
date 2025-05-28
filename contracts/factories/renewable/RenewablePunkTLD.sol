@@ -14,6 +14,23 @@ import "base64-sol/base64.sol";
 contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
   using strings for string;
 
+  // Custom errors
+  error DomainExpired();
+  error NotDomainOwner();
+  error DomainEmpty();
+  error DomainTooLong();
+  error DomainContainsDots();
+  error DomainContainsSpaces();
+  error DomainAlreadyExists();
+  error BuyingDisabled();
+  error OnlyMinter();
+  error OnlyRenewer();
+  error DomainDoesNotExist();
+  error CannotRenewExpired();
+  error MetadataFrozen();
+  error MinterFrozen();
+  error RenewerFrozen();
+
   struct Domain {
     string name; // domain name that goes before the TLD name; example: "tempetechie" in "tempetechie.web3"
     uint256 tokenId;
@@ -107,7 +124,7 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
   /// @notice Flexi&Renewable-specific function
   function burn(string calldata _domainName) external {
     string memory dName = strings.lower(_domainName);
-    require(domains[dName].holder == _msgSender(), "You do not own the selected domain");
+    if (domains[dName].holder != _msgSender()) revert NotDomainOwner();
     uint256 tokenId = domains[dName].tokenId;
     delete domainIdsNames[tokenId]; // delete tokenId => domainName mapping
     delete domains[dName]; // delete string => Domain struct mapping
@@ -125,8 +142,8 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
   /// @notice Default domain is the domain name that reverse resolver returns for a given address.
   function editDefaultDomain(string calldata _domainName) external {
     string memory dName = strings.lower(_domainName);
-    require(block.timestamp < domains[dName].expiry, "This domain has expired");
-    require(domains[dName].holder == _msgSender(), "You do not own the selected domain");
+    if (block.timestamp >= domains[dName].expiry) revert DomainExpired();
+    if (domains[dName].holder != _msgSender()) revert NotDomainOwner();
     defaultNames[_msgSender()] = dName;
     emit DefaultDomainChanged(_msgSender(), dName);
   }
@@ -136,8 +153,8 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
   /// @param _data Custom data needs to be in a JSON object format.
   function editData(string calldata _domainName, string calldata _data) external {
     string memory dName = strings.lower(_domainName);
-    require(block.timestamp < domains[dName].expiry, "This domain has expired");
-    require(domains[dName].holder == _msgSender(), "Only domain holder can edit their data");
+    if (block.timestamp >= domains[dName].expiry) revert DomainExpired();
+    if (domains[dName].holder != _msgSender()) revert NotDomainOwner();
     domains[dName].data = _data;
     emit DataChanged(_msgSender(), _domainName);
   }
@@ -154,8 +171,8 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
     address _domainHolder,
     uint256 _registrationLength
   ) external nonReentrant returns(uint256) {
-    require(buyingEnabled, "Buying domains disabled");
-    require(_msgSender() == minterAddress, "Only minter can mint domains");
+    if (!buyingEnabled) revert BuyingDisabled();
+    if (_msgSender() != minterAddress) revert OnlyMinter();
 
     // convert domain name to lowercase (only works for ascii, clients should enforce ascii domains only)
     string memory _domainNameLower = strings.lower(_domainName);
@@ -191,11 +208,11 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
     uint256 _registrationLength,
     string memory _data
   ) internal returns(uint256) {
-    require(strings.len(strings.toSlice(_domainName)) > 0, "Domain name empty");
-    require(bytes(_domainName).length <= nameMaxLength, "Domain name is too long");
-    require(strings.count(strings.toSlice(_domainName), strings.toSlice(".")) == 0, "There should be no dots in the name");
-    require(strings.count(strings.toSlice(_domainName), strings.toSlice(" ")) == 0, "There should be no spaces in the name");
-    require(domains[_domainName].holder == address(0), "Domain with this name already exists");
+    if (strings.len(strings.toSlice(_domainName)) == 0) revert DomainEmpty();
+    if (bytes(_domainName).length > nameMaxLength) revert DomainTooLong();
+    if (strings.count(strings.toSlice(_domainName), strings.toSlice(".")) > 0) revert DomainContainsDots();
+    if (strings.count(strings.toSlice(_domainName), strings.toSlice(" ")) > 0) revert DomainContainsSpaces();
+    if (domains[_domainName].holder != address(0)) revert DomainAlreadyExists();
 
     _mint(_domainHolder, idCounter);
 
@@ -233,12 +250,12 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
     string memory _domainName,
     uint256 _addExpirySeconds
   ) external nonReentrant returns(uint256) {
-    require(_msgSender() == renewerAddress, "Only renewer can renew domains.");
-    require(domains[_domainName].holder != address(0), "Domain does not exist yet.");
+    if (_msgSender() != renewerAddress) revert OnlyRenewer();
+    if (domains[_domainName].holder == address(0)) revert DomainDoesNotExist();
 
     string memory dName = strings.lower(_domainName);
 
-    require(block.timestamp < domains[dName].expiry, "Cannot renew an expired domain.");
+    if (block.timestamp >= domains[dName].expiry) revert CannotRenewExpired();
 
     domains[dName].expiry += _addExpirySeconds; // add expiry seconds
 
@@ -249,13 +266,13 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
 
   /// @notice Only TLD contract owner can call this function. Flexi&Renewable-specific function.
   function changeMetadataAddress(address _metadataAddress) external onlyOwner {
-    require(!metadataFrozen, "Cannot change the metadata address anymore");
+    if (metadataFrozen) revert MetadataFrozen();
     metadataAddress = _metadataAddress;
   }
 
   /// @notice Only TLD contract owner can call this function. Flexi&Renewable-specific function.
   function changeMinterAddress(address _minter) external onlyOwner {
-    require(!minterFrozen, "Cannot change the minter address anymore");
+    if (minterFrozen) revert MinterFrozen();
     minterAddress = _minter;
   }
 
@@ -266,7 +283,7 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
 
   /// @notice Only TLD contract owner can call this function. Renewable-specific function.
   function changeRenewerAddress(address _renewer) external onlyOwner {
-    require(!renewerFrozen, "Cannot change the renewer address anymore");
+    if (renewerFrozen) revert RenewerFrozen();
     renewerAddress = _renewer;
   }
 
@@ -300,7 +317,7 @@ contract RenewablePunkTLD is ERC721, Ownable, ReentrancyGuard {
   function _beforeTokenTransfer(address from,address to,uint256 tokenId) internal override virtual {
     if (from != address(0) && to != address(0)) { 
       // if not mint or burn, do the following actions:
-      require(block.timestamp < domains[domainIdsNames[tokenId]].expiry, "This domain has expired"); // if domain is expired, prevent the transfer
+      if (block.timestamp >= domains[domainIdsNames[tokenId]].expiry) revert DomainExpired(); // if domain is expired, prevent the transfer
       
       domains[domainIdsNames[tokenId]].holder = to; // change holder address in Domain struct
       

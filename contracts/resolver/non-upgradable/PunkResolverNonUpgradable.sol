@@ -14,6 +14,9 @@ import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 contract PunkResolverNonUpgradable is Ownable {
   using strings for string;
 
+  // Custom errors
+  error NotDomainOwner();
+
   address[] public factories;
 
   mapping (address => bool) public isTldDeprecated; // deprecate an address, not TLD name
@@ -224,7 +227,7 @@ contract PunkResolverNonUpgradable is Ownable {
   function setCustomDefaultDomain(string memory _domainName, string memory _tld) external {
     if (bytes(_domainName).length > 0 && bytes(_tld).length > 0) {
       // set a custom default domain
-      require(getDomainHolder(_domainName, _tld) == _msgSender(), "You do not own this domain.");
+      if (getDomainHolder(_domainName, _tld) != _msgSender()) revert NotDomainOwner();
 
       customDefaultDomain[_msgSender()] = [_domainName, _tld];
       emit CustomDefaultDomainSet(_msgSender(), _domainName, _tld);

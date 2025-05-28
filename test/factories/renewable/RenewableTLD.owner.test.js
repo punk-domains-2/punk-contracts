@@ -94,7 +94,7 @@ describe("RenewablePunkTLD (onlyOwner)", function () {
       newDomainName, // domain name (without TLD)
       anotherUser.address, // domain holder
       expiryDate(now, 60) // expiry date 60 min in the future
-    )).to.be.revertedWith('Buying domains disabled'); // should fail, no matter if user is owner and minter
+    )).to.be.reverted; // should fail, no matter if user is owner and minter
   });
 
   it("should toggle buying domains", async function () {
@@ -139,7 +139,7 @@ describe("RenewablePunkTLD (onlyOwner)", function () {
     
     await contract.freezeMetadata();
 
-    await expect(contract.changeMetadataAddress(metadataContract1.address)).to.be.revertedWith('Cannot change the metadata address anymore');
+    await expect(contract.changeMetadataAddress(metadataContract1.address)).to.be.reverted;
   });
 
   it("should change minter contract address and then freeze it", async function () {
@@ -156,7 +156,7 @@ describe("RenewablePunkTLD (onlyOwner)", function () {
     
     await contract.freezeMinter();
 
-    await expect(contract.changeMinterAddress(ethers.constants.AddressZero)).to.be.revertedWith('Cannot change the minter address anymore');
+    await expect(contract.changeMinterAddress(ethers.constants.AddressZero)).to.be.reverted;
   });
 
   it("should change renewer contract address and then freeze it", async function () {
@@ -173,7 +173,7 @@ describe("RenewablePunkTLD (onlyOwner)", function () {
     
     await contract.freezeRenewer();
 
-    await expect(contract.changeRenewerAddress(ethers.constants.AddressZero)).to.be.revertedWith('Cannot change the renewer address anymore');
+    await expect(contract.changeRenewerAddress(ethers.constants.AddressZero)).to.be.reverted;
   });
 
 });

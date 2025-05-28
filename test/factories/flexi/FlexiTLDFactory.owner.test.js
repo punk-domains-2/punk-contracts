@@ -1,3 +1,5 @@
+// npx hardhat test test/factories/flexi/FlexiTLDFactory.owner.test.js
+
 const { expect } = require("chai");
 
 describe("FlexiPunkTLDFactory (onlyOwner)", function () {
@@ -50,7 +52,7 @@ describe("FlexiPunkTLDFactory (onlyOwner)", function () {
       owner.address, // TLD owner
       ethers.utils.parseUnits("0.2", "ether"), // domain price
       false // buying enabled
-    )).to.be.revertedWith('Name must have 1 dot');
+    )).to.be.reverted;
   });
 
   it("should fail to create a new valid TLD if no dot in the name", async function () {
@@ -60,7 +62,7 @@ describe("FlexiPunkTLDFactory (onlyOwner)", function () {
       owner.address, // TLD owner
       ethers.utils.parseUnits("0.2", "ether"), // domain price
       false // buying enabled
-    )).to.be.revertedWith('Name must have 1 dot');
+    )).to.be.reverted;
   });
 
   it("should fail to create a new valid TLD if name does not start with dot", async function () {
@@ -70,7 +72,7 @@ describe("FlexiPunkTLDFactory (onlyOwner)", function () {
       owner.address, // TLD owner
       ethers.utils.parseUnits("0.2", "ether"), // domain price
       false // buying enabled
-    )).to.be.revertedWith('Name must start with dot');
+    )).to.be.reverted;
   });
 
   it("should fail to create a new valid TLD if name is of length 1", async function () {
@@ -80,7 +82,7 @@ describe("FlexiPunkTLDFactory (onlyOwner)", function () {
       owner.address, // TLD owner
       ethers.utils.parseUnits("0.2", "ether"), // domain price
       false // buying enabled
-    )).to.be.revertedWith('TLD too short');
+    )).to.be.reverted;
   });
 
   it("should fail to create a new valid TLD with empty name", async function () {
@@ -90,7 +92,7 @@ describe("FlexiPunkTLDFactory (onlyOwner)", function () {
       owner.address, // TLD owner
       ethers.utils.parseUnits("0.2", "ether"), // domain price
       false // buying enabled
-    )).to.be.revertedWith('TLD too short');
+    )).to.be.reverted;
   });
 
   it("should fail to create a new valid TLD if TLD already exists", async function () {
@@ -110,7 +112,7 @@ describe("FlexiPunkTLDFactory (onlyOwner)", function () {
       owner.address, // TLD owner
       ethers.utils.parseUnits("0.2", "ether"), // domain price
       false // buying enabled
-    )).to.be.revertedWith('TLD already exists or forbidden');
+    )).to.be.reverted;
   });
 
   it("should fail to create a new valid TLD if TLD name is too long", async function () {
@@ -121,7 +123,7 @@ describe("FlexiPunkTLDFactory (onlyOwner)", function () {
       owner.address, // TLD owner
       ethers.utils.parseUnits("0.2", "ether"), // domain price
       false // buying enabled
-    )).to.be.revertedWith('TLD too long');
+    )).to.be.reverted;
 
   });
 

@@ -8,6 +8,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @author Tempe Techie
 /// @notice Contract that stores metadata for TLD contracts.
 contract FlexiPunkMetadata {
+  // Custom errors
+  error SenderNotTldOwner();
+
   mapping (address => string) public descriptions; // TLD-specific descriptions, mapping(tldAddress => description)
   mapping (address => string) public brands; // TLD-specific brand names, mapping(tldAddress => brandName)
 
@@ -52,14 +55,14 @@ contract FlexiPunkMetadata {
 
   /// @notice Only TLD contract owner can call this function.
   function changeBrand(address _tldAddress, string calldata _brand) external {
-    require(msg.sender == getTldOwner(_tldAddress), "Sender not TLD owner");
+    if (msg.sender != getTldOwner(_tldAddress)) revert SenderNotTldOwner();
     brands[_tldAddress] = _brand;
     emit BrandChanged(msg.sender, _brand);
   }
 
   /// @notice Only TLD contract owner can call this function.
   function changeDescription(address _tldAddress, string calldata _description) external {
-    require(msg.sender == getTldOwner(_tldAddress), "Sender not TLD owner");
+    if (msg.sender != getTldOwner(_tldAddress)) revert SenderNotTldOwner();
     descriptions[_tldAddress] = _description;
     emit DescriptionChanged(msg.sender, _description);
   }
