@@ -33,7 +33,7 @@ contract FlexiPunkTLD is IBasePunkTLD, ERC721, Ownable, ReentrancyGuard {
   uint256 public override price; // domain price
   uint256 public royalty; // share of each domain purchase (in bips) that goes to Punk Domains
   uint256 public override referral = 1000; // share of each domain purchase (in bips) that goes to the referrer (referral fee)
-  uint256 public nameMaxLength = 140; // max length of a domain name
+  uint256 public nameMaxLength = 140; // max length for minting a domain name
   
   mapping (string => Domain) public override domains; // mapping (domain name => Domain struct); Domain struct is defined in IBasePunkTLD
   mapping (uint256 => string) public domainIdsNames; // mapping (tokenId => domain name)
