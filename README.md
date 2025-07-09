@@ -178,6 +178,10 @@ slither .
 
 Docs: https://github.com/crytic/slither
 
+## Audit
+
+The official audit was done by Protofire (see the PDF in the `audit` folder). The issues were fixed (see remediation report) except in cases where the issue was not relevant to our use case (e.g. a supply cap recommendation).
+
 ## Debugging
 
 ### Error: ENOENT: no such file or directory
