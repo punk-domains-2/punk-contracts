@@ -111,7 +111,9 @@ contract FlexiPunkTLDFactory is IBasePunkTLDFactory, Ownable, ReentrancyGuard {
 
     _validTldName(_name);
 
-    FlexiPunkTLD tld = new FlexiPunkTLD(
+    bytes32 saltedHash = keccak256(abi.encodePacked(msg.sender, block.timestamp)); // salt for TLD to have a unique address
+
+    FlexiPunkTLD tld = new FlexiPunkTLD{salt: saltedHash}(
       _name, 
       _symbol, 
       _tldOwner, 
