@@ -1,11 +1,11 @@
-// npx hardhat run scripts/factories/flexi/callMethods.js --network superpositionTestnet
+// npx hardhat run scripts/factories/flexi/callMethods.js --network arbitrumSepolia
 
 const forbiddenAddress = "";
-const factoryAddress = "0x1D882E64bb7f4D49e67018d81254236A2A6465a3";
+const factoryAddress = "0xF40284a811c82b4B9ab22E94Bb909Df6d2c66C08";
 const tldAddress = ""; // .🥁 TLD
 const metadataAddress = "";
 
-const domainPrice = ethers.utils.parseUnits("0", "ether");
+const domainPrice = ethers.utils.parseUnits("0", "ether"); // TODO: set price or leave 0 if there's a minter contract
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -72,8 +72,8 @@ async function main() {
   //await minterContract.transferOwnership(newOwnerAddress);
 
   // CREATE A NEW TLD
-  const tldName = ".test";
-  const tldSymbol = ".TEST";
+  const tldName = ".demo";
+  const tldSymbol = ".DEMO";
    
   /* 
   const tx = await factoryContract.ownerCreateTld(
@@ -81,7 +81,7 @@ async function main() {
     tldSymbol, // symbol
     deployer.address, // TLD owner
     domainPrice, // domain price
-    false // buying enabled
+    true // buying enabled
   );
 
   tx.wait();

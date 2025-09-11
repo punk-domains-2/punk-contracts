@@ -37,9 +37,9 @@ module.exports = {
       gas: "auto", // gas limit
       gasPrice: 10000000, // 0.01 gwei
     },
-    arbitrumTestnet: {
-      url: 'https://rinkeby.arbitrum.io/rpc',
-      chainId: 421611,
+    arbitrumSepolia: {
+      url: 'https://sepolia-rollup.arbitrum.io/rpc', // https://arbitrum-sepolia.drpc.org, https://arbitrum-sepolia.therpc.io
+      chainId: 421614,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
@@ -117,13 +117,6 @@ module.exports = {
     holesky: { // Holesky testnet
       url: "https://holesky.drpc.org",
       chainId: 17000,
-      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
-      gas: "auto", // gas limit
-      gasPrice: 1000000000, // 1 gwei
-    },
-    kroma: { // Kroma mainnet
-      url: "https://api.kroma.network/", 
-      chainId: 255,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
       gas: "auto", // gas limit
       gasPrice: 1000000000, // 1 gwei
@@ -312,7 +305,7 @@ module.exports = {
       arbitrumOne: process.env.ARBISCAN_API_KEY,
       arbitrumGoerli: process.env.ARBISCAN_API_KEY,
       arbitrumNova: process.env.NOVAARBISCAN_API_KEY,
-      arbitrumTestnet: process.env.ARBISCAN_API_KEY,
+      arbitrumSepolia: process.env.ARBISCAN_API_KEY,
       aurora: process.env.AURORASCAN_API_KEY,
       auroraTestnet: process.env.AURORASCAN_API_KEY,
       base: process.env.BASESCAN_API_KEY,
@@ -322,8 +315,6 @@ module.exports = {
       flare: "randomstring",
       flareCoston: "randomstring",
       ftmTestnet: process.env.FTMSCAN_API_KEY,
-      //holesky: process.env.ETHERSCAN_API_KEY,
-      kroma: process.env.KROMASCAN_API_KEY,
       linea: process.env.LINEASCAN_API_KEY,
       mainnet: process.env.ETHERSCAN_API_KEY,
       mantleTestnet: "randomstring",
@@ -355,7 +346,7 @@ module.exports = {
         network: "arbitrumGoerli",
         chainId: 421613,
         urls: {
-          apiURL: "https://api-goerli.arbiscan.io/api",
+          apiURL: "https://api.arbiscan.io/api",
           browserURL: "https://goerli.arbiscan.io"
         }
       },
@@ -363,8 +354,16 @@ module.exports = {
         network: "arbitrumNova",
         chainId: 42170,
         urls: {
-          apiURL: "https://api-nova.arbiscan.io/api",
+          apiURL: "https://api.arbiscan.io/api",
           browserURL: "https://nova.arbiscan.io"
+        }
+      },
+      {
+        network: "arbitrumSepolia",
+        chainId: 421614,
+        urls: {
+          apiURL: "https://api.arbiscan.io/api",
+          browserURL: "https://sepolia.arbiscan.io"
         }
       },
       /* */
@@ -429,27 +428,6 @@ module.exports = {
           browserURL: "https://coston-explorer.flare.network"
         }
       },
-
-      /* */
-      {
-        network: "kroma", // KromaScan (Etherscan)
-        chainId: 255,
-        urls: {
-          apiURL: "https://api.kromascan.com/api",
-          browserURL: "https://kromascan.com"
-        }
-      },
-      
-      /* 
-      {
-        network: "kroma",
-        chainId: 255,
-        urls: {
-          apiURL: "https://blockscout.kroma.network/api",
-          browserURL: "https://blockscout.kroma.network/"
-        }
-      },
-      */
       {
         network: "linea",
         chainId: 59144,
